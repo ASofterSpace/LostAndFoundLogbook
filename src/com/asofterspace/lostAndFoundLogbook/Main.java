@@ -26,7 +26,7 @@ public class Main {
 
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been started...");
 
-		Directory webRoot = new Directory("data");
+		Directory webRoot = new Directory("server");
 
 		Server server = new Server(webRoot);
 

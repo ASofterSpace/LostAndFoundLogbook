@@ -4,12 +4,14 @@
  */
 package com.asofterspace.lostAndFoundLogbook;
 
+import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.web.WebServer;
 
 
 public class Server extends WebServer {
 
-	public Server() {
-		super();
+	public Server(Directory webRoot) {
+
+		super(webRoot);
 	}
 }

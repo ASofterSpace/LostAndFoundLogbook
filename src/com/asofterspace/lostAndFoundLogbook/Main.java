@@ -22,6 +22,10 @@ public class Main {
 
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been started...");
 
+		Server server = new Server();
+
+		server.serve();
+
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been stopped; goodbye! :)");
 	}
 }

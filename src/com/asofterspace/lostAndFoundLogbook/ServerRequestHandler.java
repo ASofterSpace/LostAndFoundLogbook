@@ -30,26 +30,32 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 	@Override
 	protected void handlePost(String fileLocation) throws IOException {
 
+		String jsonData = receiveJsonContent();
+
+		if (jsonData == null) {
+			respond(400);
+			return;
+		}
+
+		// TODO :: catch some exceptions? (or make sure that none are thrown?)
+		JSON json = new JSON(jsonData);
+
 		switch (fileLocation) {
 
 			case "/saveLostItem":
-				String jsonData = receiveJsonContent();
-				System.out.println("Received data: " + jsonData);
-
-				// TODO :: catch some exceptions? (or make sure that none are thrown?)
-				JSON json = new JSON(jsonData);
 				db.saveLostItem(json);
+				break;
 
-				if (jsonData == null) {
-					respond(400);
-				} else {
-					WebServerAnswer answer = new WebServerAnswerInJson("{\"success\": true}");
-					respond(200, answer);
-				}
+			case "/saveFoundItem":
+				db.saveFoundItem(json);
 				break;
 
 			default:
 				respond(404);
+				return;
 		}
+
+		WebServerAnswer answer = new WebServerAnswerInJson("{\"success\": true}");
+		respond(200, answer);
 	}
 }

@@ -27,4 +27,33 @@
 	<div onclick="saveFoundItem();">Save this Found Item</div>
 </div>
 
+
+<script>
+
+	function saveFoundItem() {
+
+		var request = new XMLHttpRequest();
+		request.open("POST", "/saveFoundItem", false);
+		request.setRequestHeader("Content-Type", "application/json");
+
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+				// TODO :: if success: true is sent as JSON object,
+				// show message that the saving was successful
+				console.log(request.responseText);
+			}
+		}
+
+		var data = {
+			what: document.getElementById("found-what").value,
+			when: document.getElementById("found-when").value,
+			where: document.getElementById("found-where").value,
+			who: document.getElementById("found-who").value,
+		};
+
+		request.send(JSON.stringify(data));
+	}
+
+</script>
+
 @include(bottom.htm)

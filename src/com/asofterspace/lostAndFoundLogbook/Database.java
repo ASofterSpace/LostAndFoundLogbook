@@ -61,6 +61,23 @@ public class Database {
 		saveDatabase();
 	}
 
+	public void saveFoundItem(JSON item) {
+
+		XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
+
+		XmlElement foundItem = foundItems.createChild(FOUND_ITEM);
+
+		increaseMaxId();
+
+		foundItem.createChild("id").setInnerText(maxid);
+		foundItem.createChild("what").setInnerText(item.getString("what"));
+		foundItem.createChild("when").setInnerText(item.getString("when"));
+		foundItem.createChild("where").setInnerText(item.getString("where"));
+		foundItem.createChild("who").setInnerText(item.getString("who"));
+
+		saveDatabase();
+	}
+
 	private void increaseMaxId() {
 
 		maxid = maxid + 1;

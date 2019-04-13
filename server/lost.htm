@@ -48,6 +48,8 @@ able to find you again, but really do not feel pressured to enter anything you a
 
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
+				// TODO :: if success: true is sent as JSON object,
+				// show message that the saving was successful
 				console.log(request.responseText);
 			}
 		}

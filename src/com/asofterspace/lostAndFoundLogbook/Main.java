@@ -8,6 +8,7 @@ import com.asofterspace.toolbox.configuration.ConfigFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.io.JsonFile;
+import com.asofterspace.toolbox.io.XmlFile;
 import com.asofterspace.toolbox.Utils;
 import com.asofterspace.toolbox.web.WebTemplateEngine;
 
@@ -31,6 +32,14 @@ public class Main {
 
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been started...");
 
+		System.out.println("Loading the preexisting data about lost and found objects...");
+
+		Directory dataDir = new Directory("data");
+
+		Database db = new Database(dataDir);
+
+		System.out.println("Templating the web application...");
+
 		Directory origDir = new Directory("server");
 
 		JsonFile jsonConfigFile = new JsonFile(origDir, "webengine.json");
@@ -44,7 +53,7 @@ public class Main {
 
 		System.out.println("Templating done, serving data now...");
 
-		Server server = new Server(webRoot);
+		Server server = new Server(webRoot, db);
 
 		List<String> whitelist = jsonConfig.getArrayAsStringList("files");
 

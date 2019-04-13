@@ -41,6 +41,7 @@ run.sh
 Once the server is started, you can connect to it from a local webbrowser - or if you make the server machine available to the outside world, then also from there. :)
 
 Btw. - the server uses a directory called `server` in which the page itself is kept in pieces, and a second directory called `deployed` in which the same data is fully templated, ready to be served.
+Finally, a directory called `data` is used to store the actual data (so information about the actual lost and found objects.)
 
 ## License
 

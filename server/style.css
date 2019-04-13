@@ -64,15 +64,17 @@ div#mainarea > div#headline {
 	font-size: 1.5em;
 }
 
-div.buttonbar {
-
-}
-
-div.buttonbar > a {
+div.buttonbar > a, div.buttonbar > div {
 	display: block;
 	background-color: #F3E8CF;
 	padding: 0.5em;
 	border-radius: 1em;
 	text-align: center;
 	margin-top: 1em;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+div.buttonbar > div:hover, div.buttonbar > div.active {
+	color: #d13d11;
 }

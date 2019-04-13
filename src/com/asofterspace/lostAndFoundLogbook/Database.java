@@ -91,6 +91,73 @@ public class Database {
 		maxidEl.setInnerText(maxid);
 	}
 
+	public String getItems(JSON request) {
+
+		// get all the items
+		if ("*".equals(request.getString("id"))) {
+
+			StringBuilder result = new StringBuilder();
+
+			result.append("{");
+
+			result.append("\"lostItems\":[");
+
+			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
+			String sep = "";
+
+			for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
+				result.append(sep);
+				sep = ",";
+				result.append("{\"id\": ");
+				result.append(lostItem.getChild("id").getInnerText());
+				result.append(", \"what\": \"");
+				result.append(lostItem.getChild("what").getInnerText());
+				result.append("\", \"when\": \"");
+				result.append(lostItem.getChild("when").getInnerText());
+				result.append("\", \"where\": \"");
+				result.append(lostItem.getChild("where").getInnerText());
+				result.append("\", \"who\": \"");
+				result.append(lostItem.getChild("who").getInnerText());
+				result.append("\", \"contactonsite\": \"");
+				result.append(lostItem.getChild("contactonsite").getInnerText());
+				result.append("\", \"contactoffsite\": \"");
+				result.append(lostItem.getChild("contactoffsite").getInnerText());
+				result.append("\"}");
+			}
+
+			result.append("],");
+
+			result.append("\"foundItems\":[");
+
+			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
+			sep = "";
+
+			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
+				result.append(sep);
+				sep = ",";
+				result.append("{\"id\": ");
+				result.append(foundItem.getChild("id").getInnerText());
+				result.append(", \"what\": \"");
+				result.append(foundItem.getChild("what").getInnerText());
+				result.append("\", \"when\": \"");
+				result.append(foundItem.getChild("when").getInnerText());
+				result.append("\", \"where\": \"");
+				result.append(foundItem.getChild("where").getInnerText());
+				result.append("\", \"who\": \"");
+				result.append(foundItem.getChild("who").getInnerText());
+				result.append("\"}");
+			}
+
+			result.append("]");
+
+			result.append("}");
+
+			return result.toString();
+		}
+
+		return null;
+	}
+
 	public void loadDatabase() {
 
 		xmlFile = new XmlFile(dataDir, DB_FILE_NAME);

@@ -41,12 +41,19 @@ a:active, a:hover, a.active {
 	color: #d13d11;
 }
 
+h3 {
+	margin: 0;
+	font-size: 1em;
+	font-weight: normal;
+	font-style: italic;
+}
+
 div#mainarea {
 	margin-left: 25%;
 	margin-right: 3%;
 }
 
-div#mainarea > div {
+div#mainarea > div, div#contentcontainer > div {
 	margin-bottom: 0.5em;
 }
 

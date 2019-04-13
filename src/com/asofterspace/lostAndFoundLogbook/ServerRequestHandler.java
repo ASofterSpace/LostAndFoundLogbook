@@ -40,6 +40,8 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 		// TODO :: catch some exceptions? (or make sure that none are thrown?)
 		JSON json = new JSON(jsonData);
 
+		WebServerAnswer answer = null;
+
 		switch (fileLocation) {
 
 			case "/saveLostItem":
@@ -50,12 +52,24 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 				db.saveFoundItem(json);
 				break;
 
+			case "/items":
+				String jsonAnswer = db.getItems(json);
+				if (jsonAnswer == null) {
+					respond(400);
+					return;
+				}
+				answer = new WebServerAnswerInJson(jsonAnswer);
+				break;
+
 			default:
 				respond(404);
 				return;
 		}
 
-		WebServerAnswer answer = new WebServerAnswerInJson("{\"success\": true}");
+		if (answer == null) {
+			answer = new WebServerAnswerInJson("{\"success\": true}");
+		}
+
 		respond(200, answer);
 	}
 }

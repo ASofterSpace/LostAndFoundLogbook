@@ -40,6 +40,8 @@ run.sh
 
 Once the server is started, you can connect to it from a local webbrowser - or if you make the server machine available to the outside world, then also from there. :)
 
+Btw. - the server uses a directory called `server` in which the page itself is kept in pieces, and a second directory called `deployed` in which the same data is fully templated, ready to be served.
+
 ## License
 
 We at A Softer Space really love the Unlicense, which pretty much allows anyone to do anything with this source code.

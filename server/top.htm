@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Lost and Found Logbook</title>
+
+		<meta name="keywords" content="nowhere, lost and found">
+
+		<meta name="description" content="This is the Nowhere Lost and Found Logbook.">
+
+		<link href="/style.css" media="all" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+		<div id="sidebar">
+			<a href="/" class="a_logo">
+				<img src="/logo.png" />
+			</a>
+
+			<a href="/" @if(pageStart="index") class="active" @endif>
+				HOME
+			</a>
+
+			<a href="/lost.htm" @if(pageStart="lost") class="active" @endif>
+				LOST SOMETHING
+			</a>
+
+			<a href="/found.htm" @if(pageStart="found") class="active" @endif>
+				FOUND SOMETHING
+			</a>
+
+			<a href="/overview.htm" @if(pageStart="overview") class="active" @endif>
+				OBJECT LIST
+			</a>
+		</div>
+
+		<div id="mainarea">

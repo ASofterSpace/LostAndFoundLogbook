@@ -4,8 +4,12 @@
  */
 package com.asofterspace.lostAndFoundLogbook;
 
+import com.asofterspace.toolbox.configuration.ConfigFile;
 import com.asofterspace.toolbox.io.Directory;
+import com.asofterspace.toolbox.io.JSON;
+import com.asofterspace.toolbox.io.JsonFile;
 import com.asofterspace.toolbox.Utils;
+import com.asofterspace.toolbox.web.WebTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ public class Main {
 	public final static String VERSION_NUMBER = "0.0.0.3(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
 	public final static String VERSION_DATE = "10. April 2019 - 13. April 2019";
 
+
 	public static void main(String[] args) {
 
 		// let the Utils know in what program it is being used
@@ -26,18 +31,22 @@ public class Main {
 
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been started...");
 
-		Directory webRoot = new Directory("server");
+		Directory origDir = new Directory("server");
+
+		JsonFile jsonConfigFile = new JsonFile(origDir, "webengine.json");
+		JSON jsonConfig = jsonConfigFile.getAllContents();
+
+		WebTemplateEngine engine = new WebTemplateEngine(origDir, jsonConfig);
+
+		Directory webRoot = new Directory("deployed");
+
+		engine.compileTo(webRoot);
+
+		System.out.println("Templating done, serving data now...");
 
 		Server server = new Server(webRoot);
 
-		List<String> whitelist = new ArrayList<>();
-		whitelist.add("/index.htm");
-		whitelist.add("/style.css");
-		whitelist.add("/logo.png");
-		whitelist.add("/smiley.png");
-		whitelist.add("/lost.htm");
-		whitelist.add("/found.htm");
-		whitelist.add("/overview.htm");
+		List<String> whitelist = jsonConfig.getArrayAsStringList("files");
 
 		server.setFileLocationWhitelist(whitelist);
 

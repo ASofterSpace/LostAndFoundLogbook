@@ -14,8 +14,8 @@ import java.util.List;
 public class Main {
 
 	public final static String PROGRAM_TITLE = "LostAndFoundLogbook";
-	public final static String VERSION_NUMBER = "0.0.0.2(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
-	public final static String VERSION_DATE = "10. April 2019 - 12. April 2019";
+	public final static String VERSION_NUMBER = "0.0.0.3(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
+	public final static String VERSION_DATE = "10. April 2019 - 13. April 2019";
 
 	public static void main(String[] args) {
 
@@ -32,6 +32,12 @@ public class Main {
 
 		List<String> whitelist = new ArrayList<>();
 		whitelist.add("/index.htm");
+		whitelist.add("/style.css");
+		whitelist.add("/logo.png");
+		whitelist.add("/smiley.png");
+		whitelist.add("/lost.htm");
+		whitelist.add("/found.htm");
+		whitelist.add("/overview.htm");
 
 		server.setFileLocationWhitelist(whitelist);
 

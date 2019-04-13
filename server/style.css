@@ -1,0 +1,66 @@
+body {
+	margin: 0;
+	font-family: 'Raleway', Arial, sans-serif;
+	font-size: 17px;
+}
+
+div#sidebar {
+	width: 20%;
+	height: 100%;
+	position: fixed;
+	padding: 1em;
+	box-sizing: border-box;
+	box-shadow: 0em 0em 2em 0em #000;
+	top: 0;
+}
+
+div#sidebar > a {
+	display: block;
+	text-align: center;
+	padding: 0.7em;
+	font-family: 'Montserrat', Arial, sans-serif;
+	font-size: 16px;
+	letter-spacing: 1px;
+}
+
+div#sidebar > a.a_logo {
+	width: 100%;
+	padding: 0 0 0.2em 0;
+}
+
+div#sidebar > a.a_logo > img {
+	width: 100%;
+}
+
+a, a:visited {
+	text-decoration: none;
+	color: #000;
+}
+
+a:active, a:hover, a.active {
+	color: #d13d11;
+}
+
+div#mainarea {
+	margin-left: 25%;
+	margin-right: 3%;
+}
+
+#headline {
+	margin: 1em;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+div.buttonbar {
+
+}
+
+div.buttonbar > a {
+	display: block;
+	background-color: #F3E8CF;
+	padding: 0.5em;
+	border-radius: 1em;
+	text-align: center;
+	margin-top: 1em;
+}

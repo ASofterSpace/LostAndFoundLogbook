@@ -131,19 +131,19 @@ public class Database {
 				result.append(sep);
 				sep = ",";
 				result.append("{\"id\": ");
-				result.append(lostItem.getChild("id").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("id").getInnerText()));
 				result.append(", \"what\": \"");
-				result.append(lostItem.getChild("what").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("what").getInnerText()));
 				result.append("\", \"when\": \"");
-				result.append(lostItem.getChild("when").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("when").getInnerText()));
 				result.append("\", \"where\": \"");
-				result.append(lostItem.getChild("where").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("where").getInnerText()));
 				result.append("\", \"who\": \"");
-				result.append(lostItem.getChild("who").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("who").getInnerText()));
 				result.append("\", \"contactonsite\": \"");
-				result.append(lostItem.getChild("contactonsite").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("contactonsite").getInnerText()));
 				result.append("\", \"contactoffsite\": \"");
-				result.append(lostItem.getChild("contactoffsite").getInnerText());
+				result.append(JSON.escapeJSONstr(lostItem.getChild("contactoffsite").getInnerText()));
 				result.append("\"}");
 			}
 
@@ -158,18 +158,18 @@ public class Database {
 				result.append(sep);
 				sep = ",";
 				result.append("{\"id\": ");
-				result.append(foundItem.getChild("id").getInnerText());
+				result.append(JSON.escapeJSONstr(foundItem.getChild("id").getInnerText()));
 				result.append(", \"what\": \"");
-				result.append(foundItem.getChild("what").getInnerText());
+				result.append(JSON.escapeJSONstr(foundItem.getChild("what").getInnerText()));
 				result.append("\", \"when\": \"");
-				result.append(foundItem.getChild("when").getInnerText());
+				result.append(JSON.escapeJSONstr(foundItem.getChild("when").getInnerText()));
 				result.append("\", \"where\": \"");
-				result.append(foundItem.getChild("where").getInnerText());
+				result.append(JSON.escapeJSONstr(foundItem.getChild("where").getInnerText()));
 				result.append("\", \"who\": \"");
-				result.append(foundItem.getChild("who").getInnerText());
+				result.append(JSON.escapeJSONstr(foundItem.getChild("who").getInnerText()));
 				if (foundItem.getChild("picture") != null) {
 					result.append("\", \"picture\": \"");
-					result.append(foundItem.getChild("picture").getInnerText());
+					result.append(JSON.escapeJSONstr(foundItem.getChild("picture").getInnerText()));
 				}
 				result.append("\"}");
 			}
@@ -177,6 +177,8 @@ public class Database {
 			result.append("]");
 
 			result.append("}");
+
+			System.out.println(result);
 
 			return result.toString();
 		}

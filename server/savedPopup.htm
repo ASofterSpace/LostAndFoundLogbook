@@ -1,0 +1,27 @@
+
+<div id="overlay" style="display: none;"></div>
+
+<div id="savedPopup" class="popup">
+	<div style="margin: 4em;">
+		The entry has been saved! Hooray! :)
+	</div>
+
+	<div class="buttonbar">
+		<div onclick="savedOk();">Cool!</div>
+	</div>
+</div>
+
+
+<script>
+
+	function showSaved() {
+		document.getElementById("savedPopup").style.display = "block";
+		document.getElementById("overlay").style.display = "block";
+	}
+
+	function savedOk() {
+		document.getElementById("savedPopup").style.display = "none";
+		document.getElementById("overlay").style.display = "none";
+	}
+
+</script>

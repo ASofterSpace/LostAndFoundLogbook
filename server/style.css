@@ -95,11 +95,10 @@ div.buttonbar > div.oneoftwo:first-child {
 	margin-right: 5%;
 }
 
-div#snapshotPopup {
-	display: block;
+div.popup {
+	display: none;
 	border-radius: 2em;
 	background-color: #ECB;
-	overflow: hidden;
 	padding: 1em;
 	text-align: center;
 	position: fixed;
@@ -107,6 +106,7 @@ div#snapshotPopup {
 	left: 1em;
 	right: 1em;
 	bottom: 1em;
+	overflow-x: hidden;
 	overflow-y: auto;
 }
 

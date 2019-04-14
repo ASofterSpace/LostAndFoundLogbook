@@ -1,20 +1,8 @@
 @include(top.htm)
 
-<div id="headline">Nowhere Lost and Found Logbook</div>
+@include(savedPopup.htm)
 
-<div>Glad to hear that you have found something!</div>
-
-<div>Please tell me about what you have found.</div>
-
-<div>What have you found?</div>
-
-<textarea id="found-what" placeholder="E.g.:&#10;• A golden chain with some green stone attached to it; there is a picture of a duck or something with blueish eyes on the stone&#10;• A white phone (Android) with a Burning Man 2023 sticker"></textarea>
-
-<div>Please take a picture of it:</div>
-
-<div id="overlay" style="display: none;"></div>
-
-<div id="snapshotPopup" style="display: none;">
+<div id="snapshotPopup" class="popup">
 	<video id="snapshotVideo"></video>
 
 	<div class="buttonbar">
@@ -28,6 +16,18 @@
 		<div onclick="snapshotCancel();" class="oneoftwo">Cancel</div>
 	</div>
 </div>
+
+<div id="headline">Nowhere Lost and Found Logbook</div>
+
+<div>Glad to hear that you have found something!</div>
+
+<div>Please tell me about what you have found.</div>
+
+<div>What have you found?</div>
+
+<textarea id="found-what" placeholder="E.g.:&#10;• A golden chain with some green stone attached to it; there is a picture of a duck or something with blueish eyes on the stone&#10;• A white phone (Android) with a Burning Man 2023 sticker"></textarea>
+
+<div>Please take a picture of it:</div>
 
 <canvas id="found-picture" style="display: none;"></canvas>
 
@@ -142,9 +142,8 @@
 
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
-				// TODO :: if success: true is sent as JSON object,
-				// show message that the saving was successful
-				console.log(request.responseText);
+				// TODO :: check that actually success: true is sent from the server!
+				showSaved();
 			}
 		}
 

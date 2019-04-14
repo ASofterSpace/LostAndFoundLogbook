@@ -43,6 +43,9 @@ Once the server is started, you can connect to it from a local webbrowser - or i
 Btw. - the server uses a directory called `server` in which the page itself is kept in pieces, and a second directory called `deployed` in which the same data is fully templated, ready to be served.
 Finally, a directory called `data` is used to store the actual data (so information about the actual lost and found objects.)
 
+When running this on `localhost`, and you don't want to tell firefox again and again that using the webcam for taking photos is allowed, you can enter `about:config` in the firefox URL bar, go to `media.navigator.permission.disabled` and set it to `true`.
+However, again, this should only be used when running this site on `localhost` - as soon as you connect to the real (and scary) internet again, you should switch this back to the default (`false`) such that you actually get asked before websites start doing whatever they want!
+
 ## License
 
 We at A Softer Space really love the Unlicense, which pretty much allows anyone to do anything with this source code.

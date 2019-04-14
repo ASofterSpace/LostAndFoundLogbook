@@ -85,3 +85,45 @@ div.buttonbar > a, div.buttonbar > div {
 div.buttonbar > div:hover, div.buttonbar > div.active {
 	color: #d13d11;
 }
+
+div.buttonbar > div.oneoftwo {
+	display: inline-block;
+	width: 45%;
+}
+
+div.buttonbar > div.oneoftwo:first-child {
+	margin-right: 5%;
+}
+
+div#snapshotPopup {
+	display: block;
+	border-radius: 2em;
+	background-color: #ECB;
+	overflow: hidden;
+	padding: 1em;
+	text-align: center;
+	position: fixed;
+	top: 1em;
+	left: 1em;
+	right: 1em;
+	bottom: 1em;
+	overflow-y: auto;
+}
+
+div#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(255, 255, 255, 0.75);
+	margin: 0;
+}
+
+canvas#snapshotCanvas {
+	margin-top: 1.5em;
+}
+
+canvas, video {
+	max-width: 100%;
+}

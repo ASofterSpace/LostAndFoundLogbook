@@ -10,6 +10,31 @@
 
 <textarea id="found-what" placeholder="E.g.:&#10;• A golden chain with some green stone attached to it; there is a picture of a duck or something with blueish eyes on the stone&#10;• A white phone (Android) with a Burning Man 2023 sticker"></textarea>
 
+<div>Please take a picture of it:</div>
+
+<div id="overlay" style="display: none;"></div>
+
+<div id="snapshotPopup" style="display: none;">
+	<video id="snapshotVideo"></video>
+
+	<div class="buttonbar">
+		<div onclick="takeSnapshot();">Take Snapshot</div>
+	</div>
+
+	<canvas id="snapshotCanvas" style="display: none;"></canvas>
+
+	<div id="snapshotButtons" class="buttonbar" style="display: none; margin-bottom: 1.5em;">
+		<div onclick="snapshotOk();" class="oneoftwo">OK</div>
+		<div onclick="snapshotCancel();" class="oneoftwo">Cancel</div>
+	</div>
+</div>
+
+<canvas id="found-picture" style="display: none;"></canvas>
+
+<div class="buttonbar">
+	<div onclick="openSnapshotPopup();">Take Photo with the Webcam of the Laptop</div>
+</div>
+
 <div>When have you found it?</div>
 
 <textarea id="found-when" placeholder="E.g.:&#10;• Yesterday at 23:52&#10;• Just after the big fire drill that happened before the official start of Nowhere"></textarea>
@@ -29,6 +54,85 @@
 
 
 <script>
+
+	function openSnapshotPopup() {
+
+		document.getElementById("snapshotPopup").style.display = "block";
+		document.getElementById("overlay").style.display = "block";
+
+		var wantedPermission = {"video": true};
+		var onError = function(error) {
+			console.log(error);
+		};
+
+		if (navigator.getUserMedia) {
+			navigator.getUserMedia(wantedPermission, onWebcamStartup, onError);
+		} else if (navigator.mozGetUserMedia) {
+			navigator.mozGetUserMedia(wantedPermission, onWebcamStartup, onError);
+		} else if (navigator.webkitGetUserMedia) {
+			navigator.webkitGetUserMedia(wantedPermission, onWebcamStartup, onError);
+		};
+	}
+
+	function onWebcamStartup(stream) {
+
+		var video = document.getElementById("snapshotVideo");
+
+		video.srcObject = stream;
+
+		video.play();
+	}
+
+	function snapshotOk() {
+
+		var originCanvas = document.getElementById("snapshotCanvas");
+		var targetCanvas = document.getElementById("found-picture");
+
+		targetCanvas.width = originCanvas.width;
+		targetCanvas.height = originCanvas.height;
+
+		var ctx = targetCanvas.getContext("2d");
+
+		ctx.drawImage(
+			originCanvas,
+			0, 0,
+			originCanvas.width, originCanvas.height
+		);
+
+		targetCanvas.style.display = "block";
+
+		snapshotCancel();
+	}
+
+	function snapshotCancel() {
+
+		var video = document.getElementById("snapshotVideo");
+
+		video.pause();
+
+		document.getElementById("snapshotPopup").style.display = "none";
+		document.getElementById("overlay").style.display = "none";
+	}
+
+	function takeSnapshot() {
+
+		var video = document.getElementById("snapshotVideo");
+		var canvas = document.getElementById("snapshotCanvas");
+
+		canvas.width = video.offsetWidth;
+		canvas.height = video.offsetHeight;
+
+		var ctx = canvas.getContext("2d");
+
+		ctx.drawImage(
+			video,
+			0, 0,
+			video.offsetWidth, video.offsetHeight
+		);
+
+		canvas.style.display = "inline";
+		document.getElementById("snapshotButtons").style.display = "block";
+	}
 
 	function saveFoundItem() {
 

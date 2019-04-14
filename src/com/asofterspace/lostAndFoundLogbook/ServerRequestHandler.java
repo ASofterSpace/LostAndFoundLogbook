@@ -5,6 +5,7 @@
 package com.asofterspace.lostAndFoundLogbook;
 
 import com.asofterspace.toolbox.io.Directory;
+import com.asofterspace.toolbox.io.File;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.web.WebServer;
 import com.asofterspace.toolbox.web.WebServerAnswer;
@@ -71,5 +72,23 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 		}
 
 		respond(200, answer);
+	}
+
+	@Override
+	protected File getFileFromLocation(String location, String[] arguments) {
+
+		// TODO :: this does NOT go through the whitelist!
+		// so actually some more sanity checking -
+		// e.g. check that between pic and .jpg we only have numbers, nothing else!
+		if (location.startsWith("/pic") && location.endsWith(".jpg")) {
+
+			File result = new File(db.getDataDirectory(), location.substring(1));
+
+			if (result.exists()) {
+				return result;
+			}
+		}
+
+		return super.getFileFromLocation(location, arguments);
 	}
 }

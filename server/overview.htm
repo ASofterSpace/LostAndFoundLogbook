@@ -36,6 +36,9 @@
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Found Item #" + item.id + "</h3>";
 					out += "<div>What: " + item.what + "</div>";
+					if (item.picture) {
+						out += "<img src=\"/" + item.picture + "\" />";
+					}
 					out += "<div>When: " + item.when + "</div>";
 					out += "<div>Where: " + item.where + "</div>";
 					out += "<div>Who: " + item.who + "</div>";

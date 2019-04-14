@@ -155,6 +155,13 @@
 			who: document.getElementById("found-who").value,
 		};
 
+		foundPicture = document.getElementById("found-picture");
+
+		if (foundPicture.style.display == "block") {
+			// send as normal quality JPEG...
+			data.picture = foundPicture.toDataURL("image/jpeg", 0.8);
+		}
+
 		request.send(JSON.stringify(data));
 	}
 

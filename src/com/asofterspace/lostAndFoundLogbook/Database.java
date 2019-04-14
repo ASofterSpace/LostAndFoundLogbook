@@ -4,6 +4,8 @@
  */
 package com.asofterspace.lostAndFoundLogbook;
 
+import com.asofterspace.toolbox.coders.Base64Decoder;
+import com.asofterspace.toolbox.io.BinaryFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.io.JsonFile;
@@ -42,6 +44,10 @@ public class Database {
 		loadDatabase();
 	}
 
+	public Directory getDataDirectory() {
+		return dataDir;
+	}
+
 	public void saveLostItem(JSON item) {
 
 		XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
@@ -74,6 +80,21 @@ public class Database {
 		foundItem.createChild("when").setInnerText(item.getString("when"));
 		foundItem.createChild("where").setInnerText(item.getString("where"));
 		foundItem.createChild("who").setInnerText(item.getString("who"));
+
+		String picStrBase64 = item.getString("picture");
+		if (picStrBase64 != null) {
+			// TODO :: here, the first 16 bytes are frakked...
+			// maybe they already come wrongly from the browser,
+			// or the base64decoder is adding them wrongly,
+			// or the binary file is adding them wrongly,
+			// but in the end the file has 16 nonsense bytes in the beginning!
+			// (and when we manually delete them, the JPEG file turns shiny-happy!)
+			String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
+			String picName = "pic" + maxid + ".jpg";
+			BinaryFile picFile = new BinaryFile(dataDir, picName);
+			picFile.saveContentStr(picStr);
+			foundItem.createChild("picture").setInnerText(picName);
+		}
 
 		saveDatabase();
 	}
@@ -145,6 +166,10 @@ public class Database {
 				result.append(foundItem.getChild("where").getInnerText());
 				result.append("\", \"who\": \"");
 				result.append(foundItem.getChild("who").getInnerText());
+				if (foundItem.getChild("picture") != null) {
+					result.append("\", \"picture\": \"");
+					result.append(foundItem.getChild("picture").getInnerText());
+				}
 				result.append("\"}");
 			}
 

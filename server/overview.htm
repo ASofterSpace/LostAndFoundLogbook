@@ -10,6 +10,7 @@
 	request.open("POST", "/items", false);
 	request.setRequestHeader("Content-Type", "application/json");
 
+	// TODO :: add different categories of things (and show overviews over just items of that category)
 	request.onreadystatechange = function() {
 		if (request.readyState == 4 && request.status == 200) {
 
@@ -21,7 +22,7 @@
 			for (var i = 0; i < lostItems.length; i++) {
 				var item = lostItems[i];
 				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Lost Item #" + item.id + "</h3>";
+					out += "<h3>Item #" + item.id + " (Lost)</h3>";
 					out += "<div>What: " + item.what.split("\n").join("<br>") + "</div>";
 					out += "<div>When: " + item.when.split("\n").join("<br>") + "</div>";
 					out += "<div>Where: " + item.where.split("\n").join("<br>") + "</div>";
@@ -34,7 +35,7 @@
 			for (var i = 0; i < foundItems.length; i++) {
 				var item = foundItems[i];
 				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Found Item #" + item.id + "</h3>";
+					out += "<h3>Item #" + item.id + " (Found)</h3>";
 					out += "<div>What: " + item.what.split("\n").join("<br>") + "</div>";
 					if (item.picture) {
 						out += "<img src=\"/" + item.picture + "\" />";

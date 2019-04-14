@@ -22,12 +22,12 @@
 				var item = lostItems[i];
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Lost Item #" + item.id + "</h3>";
-					out += "<div>What: " + item.what + "</div>";
-					out += "<div>When: " + item.when + "</div>";
-					out += "<div>Where: " + item.where + "</div>";
-					out += "<div>Who: " + item.who + "</div>";
-					out += "<div>On-site Contact: " + item.contactonsite + "</div>";
-					out += "<div>Off-site Contact: " + item.contactoffsite + "</div>";
+					out += "<div>What: " + item.what.split("\n").join("<br>") + "</div>";
+					out += "<div>When: " + item.when.split("\n").join("<br>") + "</div>";
+					out += "<div>Where: " + item.where.split("\n").join("<br>") + "</div>";
+					out += "<div>Who: " + item.who.split("\n").join("<br>") + "</div>";
+					out += "<div>On-site Contact: " + item.contactonsite.split("\n").join("<br>") + "</div>";
+					out += "<div>Off-site Contact: " + item.contactoffsite.split("\n").join("<br>") + "</div>";
 				out += "</div>";
 			}
 
@@ -35,13 +35,13 @@
 				var item = foundItems[i];
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Found Item #" + item.id + "</h3>";
-					out += "<div>What: " + item.what + "</div>";
+					out += "<div>What: " + item.what.split("\n").join("<br>") + "</div>";
 					if (item.picture) {
 						out += "<img src=\"/" + item.picture + "\" />";
 					}
-					out += "<div>When: " + item.when + "</div>";
-					out += "<div>Where: " + item.where + "</div>";
-					out += "<div>Who: " + item.who + "</div>";
+					out += "<div>When: " + item.when.split("\n").join("<br>") + "</div>";
+					out += "<div>Where: " + item.where.split("\n").join("<br>") + "</div>";
+					out += "<div>Who: " + item.who.split("\n").join("<br>") + "</div>";
 				out += "</div>";
 			}
 

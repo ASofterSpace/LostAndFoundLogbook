@@ -178,8 +178,6 @@ public class Database {
 
 			result.append("}");
 
-			System.out.println(result);
-
 			return result.toString();
 		}
 

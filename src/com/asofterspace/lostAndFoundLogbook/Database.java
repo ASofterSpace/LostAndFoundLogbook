@@ -83,12 +83,13 @@ public class Database {
 
 		String picStrBase64 = item.getString("picture");
 		if (picStrBase64 != null) {
-			// TODO :: here, the first 16 bytes are frakked...
-			// maybe they already come wrongly from the browser,
-			// or the base64decoder is adding them wrongly,
-			// or the binary file is adding them wrongly,
-			// but in the end the file has 16 nonsense bytes in the beginning!
-			// (and when we manually delete them, the JPEG file turns shiny-happy!)
+			// the picStrBase64 should look like the following, e.g.:
+			// data:image/jpeg;base64,
+			// data:image/png,
+			// (the ;base64 bit is optional)
+			if (picStrBase64.contains(",")) {
+				picStrBase64 = picStrBase64.substring(picStrBase64.indexOf(",") + 1);
+			}
 			String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
 			String picName = "pic" + maxid + ".jpg";
 			BinaryFile picFile = new BinaryFile(dataDir, picName);

@@ -6,6 +6,8 @@
 
 <script>
 
+	@include(categoryFunction.js)
+
 	function toHtml(str) {
 		return str.replace(/&/g, "&amp;")
 				  .replace(/</g, "&lt;")
@@ -33,6 +35,7 @@
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
 					out += "<div>What: " + toHtml(item.what) + "</div>";
+					out += "<div>Category: " + toCat(item.cat) + "</div>";
 					out += "<div>When: " + toHtml(item.when) + "</div>";
 					out += "<div>Where: " + toHtml(item.where) + "</div>";
 					out += "<div>Who: " + toHtml(item.who) + "</div>";
@@ -46,6 +49,7 @@
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
 					out += "<div>What: " + toHtml(item.what) + "</div>";
+					out += "<div>Category: " + toCat(item.cat) + "</div>";
 					if (item.picture) {
 						out += "<img src=\"/" + item.picture + "\" />";
 					}

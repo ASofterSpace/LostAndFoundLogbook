@@ -58,8 +58,11 @@ div#mainarea > div, div#contentcontainer > div {
 }
 
 div#mainarea > textarea {
-	width: 100%;
 	height: 8em;
+}
+
+div#mainarea > textarea, div#mainarea > select {
+	width: 100%;
 	margin-bottom: 0.5em;
 	font-family: 'Raleway', Arial, sans-serif;
 	font-size: 17px;

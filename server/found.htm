@@ -27,7 +27,13 @@
 
 <textarea id="found-what" placeholder="E.g.:&#10;• A golden chain with some green stone attached to it; there is a picture of a duck or something with blueish eyes on the stone&#10;• A white phone (Android) with a Burning Man 2023 sticker"></textarea>
 
-<div>Please take a picture of it:</div>
+<div>What category does it belong to?</div>
+
+<select id="found-cat">
+	@include(categoryOptions.htm)
+</select>
+
+<div>Please take a picture of the found item:</div>
 
 <canvas id="found-picture" style="display: none;"></canvas>
 
@@ -134,6 +140,14 @@
 		document.getElementById("snapshotButtons").style.display = "block";
 	}
 
+	function clearData() {
+		document.getElementById("found-what").value = "";
+		document.getElementById("found-cat").value = "others";
+		document.getElementById("found-when").value = "";
+		document.getElementById("found-where").value = "";
+		document.getElementById("found-who").value = "";
+	}
+
 	function saveFoundItem() {
 
 		var request = new XMLHttpRequest();
@@ -143,18 +157,13 @@
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
 				// TODO :: check that actually success: true is sent from the server!
-
-				document.getElementById("lost-what").value = "";
-				document.getElementById("lost-when").value = "";
-				document.getElementById("lost-where").value = "";
-				document.getElementById("lost-who").value = "";
-
 				showSaved();
 			}
 		}
 
 		var data = {
 			what: document.getElementById("found-what").value,
+			cat: document.getElementById("found-cat").value,
 			when: document.getElementById("found-when").value,
 			where: document.getElementById("found-where").value,
 			who: document.getElementById("found-who").value,

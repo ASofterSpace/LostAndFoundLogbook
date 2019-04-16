@@ -57,7 +57,7 @@ public class Database {
 		lostItem.createChild("id").setInnerText(maxid);
 
 		// explicitly mention what we want to get to not save crap into the database
-		XmlElement itemData = item.toXml("what", "when", "where", "who", "contactonsite", "contactoffsite");
+		XmlElement itemData = item.toXml("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite");
 		lostItem.addChildrenOf(itemData);
 
 		saveDatabase();
@@ -72,7 +72,7 @@ public class Database {
 		foundItem.createChild("id").setInnerText(maxid);
 
 		// explicitly mention what we want to get to not save crap into the database
-		XmlElement itemData = item.toXml("what", "when", "where", "who");
+		XmlElement itemData = item.toXml("what", "cat", "when", "where", "who");
 		foundItem.addChildrenOf(itemData);
 
 		String picStrBase64 = item.getString("picture");

@@ -8,11 +8,20 @@
 
 <div>Please tell me about what you have lost - and about who you are (so we can find you if someone finds your something.)<br>
 Of course, everything you enter here is completely optional. The more data you give us, the more likely we will be
-able to find you again, but really do not feel pressured to enter anything you are not comfortable with!</div>
+able to find you again, but really do not feel pressured to enter anything you are not comfortable with!<br>
+(The data you enter here might be put online after the event to search for the lost items; if so, the descriptions
+and pictures will be put online, but your contact information will not be. For the duration of the event though
+even the contact information is very much open!)</div>
 
 <div>What have you lost?</div>
 
 <textarea id="lost-what" placeholder="E.g.:&#10;• My super-special family heirloom amulet on a golden chain; the amulet itself is made from green jade and the picture of a squirrel with purple eyes has been engraved into it&#10;• A white Android smartphone with a sticker of Burning Man 2023 on its back"></textarea>
+
+<div>What category does the lost item belong to?</div>
+
+<select id="lost-cat">
+	@include(categoryOptions.htm)
+</select>
 
 <div>When have you lost it?</div>
 
@@ -42,6 +51,16 @@ able to find you again, but really do not feel pressured to enter anything you a
 
 <script>
 
+	function clearData() {
+		document.getElementById("lost-what").value = "";
+		document.getElementById("lost-cat").value = "others";
+		document.getElementById("lost-when").value = "";
+		document.getElementById("lost-where").value = "";
+		document.getElementById("lost-who").value = "";
+		document.getElementById("lost-contact-onsite").value = "";
+		document.getElementById("lost-contact-offsite").value = "";
+	}
+
 	function saveLostItem() {
 
 		var request = new XMLHttpRequest();
@@ -51,20 +70,13 @@ able to find you again, but really do not feel pressured to enter anything you a
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
 				// TODO :: check that actually success: true is sent from the server!
-
-				document.getElementById("lost-what").value = "";
-				document.getElementById("lost-when").value = "";
-				document.getElementById("lost-where").value = "";
-				document.getElementById("lost-who").value = "";
-				document.getElementById("lost-contact-onsite").value = "";
-				document.getElementById("lost-contact-offsite").value = "";
-
 				showSaved();
 			}
 		}
 
 		var data = {
 			what: document.getElementById("lost-what").value,
+			cat: document.getElementById("lost-cat").value,
 			when: document.getElementById("lost-when").value,
 			where: document.getElementById("lost-where").value,
 			who: document.getElementById("lost-who").value,

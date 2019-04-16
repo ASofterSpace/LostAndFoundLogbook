@@ -6,6 +6,8 @@
 
 <script>
 
+	@include(categoryFunction.js)
+
 	var request = new XMLHttpRequest();
 	request.open("POST", "/items", false);
 	request.setRequestHeader("Content-Type", "application/json");
@@ -19,8 +21,44 @@
 			var out = "";
 
 			out += "<div>" + (lostItems.length + foundItems.length) + " items have been registered in total.</div>";
-			out += "<div>" + lostItems.length + " items have been registered as lost.</div>";
-			out += "<div>" + foundItems.length + " items have been registered as found.</div>";
+
+			out += "<div>" + lostItems.length + " items have been lost.</div>";
+			out += '<div style="padding-left: 2em;">';
+			var sep = "";
+			for (var c = 0; c < categories.length; c++) {
+				var curCat = categories[c];
+				var curAmount = 0;
+				for (var i = 0; i < lostItems.length; i++) {
+					if (lostItems[i].cat == curCat) {
+						curAmount++;
+					}
+					if ((curCat == "others") && (lostItems[i].cat == null)) {
+						curAmount++;
+					}
+				}
+				out += sep + curAmount + " " + toCat(curCat) + " have been lost.";
+				sep = "<br>";
+			}
+			out += "</div>";
+
+			out += "<div>" + foundItems.length + " items have been found.</div>";
+			out += '<div style="padding-left: 2em;">';
+			var sep = "";
+			for (var c = 0; c < categories.length; c++) {
+				var curCat = categories[c];
+				var curAmount = 0;
+				for (var i = 0; i < foundItems.length; i++) {
+					if (foundItems[i].cat == curCat) {
+						curAmount++;
+					}
+					if ((curCat == "others") && (foundItems[i].cat == null)) {
+						curAmount++;
+					}
+				}
+				out += sep + curAmount + " " + toCat(curCat) + " have been found.";
+				sep = "<br>";
+			}
+			out += "</div>";
 
 			document.getElementById("contentcontainer").innerHTML = out;
 		}

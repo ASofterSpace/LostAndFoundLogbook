@@ -7,7 +7,8 @@
 	</div>
 
 	<div class="buttonbar">
-		<div onclick="savedOk();">Cool!</div>
+		<div onclick="savedOk();">Cool! I am done :)</div>
+		<div onclick="savedAnother();">Cool! Please keep the data, I want to add another similar one</div>
 	</div>
 </div>
 
@@ -20,6 +21,11 @@
 	}
 
 	function savedOk() {
+		clearData();
+		savedAnother();
+	}
+
+	function savedAnother() {
 		document.getElementById("savedPopup").style.display = "none";
 		document.getElementById("overlay").style.display = "none";
 	}

@@ -17,7 +17,7 @@
 	</div>
 </div>
 
-<div id="headline">Nowhere Lost and Found Logbook</div>
+<div id="headline">Found Something</div>
 
 <div>Glad to hear that you have found something!</div>
 
@@ -143,6 +143,12 @@
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
 				// TODO :: check that actually success: true is sent from the server!
+
+				document.getElementById("lost-what").value = "";
+				document.getElementById("lost-when").value = "";
+				document.getElementById("lost-where").value = "";
+				document.getElementById("lost-who").value = "";
+
 				showSaved();
 			}
 		}

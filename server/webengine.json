@@ -6,9 +6,10 @@
 		"lost.htm",
 		"found.htm",
 		"overview.htm",
+		"statistics.htm",
 		"style.css",
 		"logo.png",
 		"smiley.png"
 	],
-	"version": 2
+	"version": 3
 }

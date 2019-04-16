@@ -2,7 +2,7 @@
 
 @include(savedPopup.htm)
 
-<div id="headline">Nowhere Lost and Found Logbook</div>
+<div id="headline">Lost Something</div>
 
 <div>Sorry to hear that you have lost something!</div>
 
@@ -51,6 +51,14 @@ able to find you again, but really do not feel pressured to enter anything you a
 		request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
 				// TODO :: check that actually success: true is sent from the server!
+
+				document.getElementById("lost-what").value = "";
+				document.getElementById("lost-when").value = "";
+				document.getElementById("lost-where").value = "";
+				document.getElementById("lost-who").value = "";
+				document.getElementById("lost-contact-onsite").value = "";
+				document.getElementById("lost-contact-offsite").value = "";
+
 				showSaved();
 			}
 		}

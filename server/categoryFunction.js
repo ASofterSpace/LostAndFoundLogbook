@@ -27,7 +27,7 @@ function toCat(str) {
 		case "lamps":
 			return "Lamps and Torches";
 		case "cups":
-			return "Cups";
+			return "Cups and Bottles";
 		case "clothes":
 			return "Clothes";
 	}

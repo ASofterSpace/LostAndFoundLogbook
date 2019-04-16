@@ -1,5 +1,8 @@
 body {
 	margin: 0;
+}
+
+body, textarea, select {
 	font-family: 'Raleway', Arial, sans-serif;
 	font-size: 17px;
 }
@@ -64,8 +67,6 @@ div#mainarea > textarea {
 div#mainarea > textarea, div#mainarea > select {
 	width: 100%;
 	margin-bottom: 0.5em;
-	font-family: 'Raleway', Arial, sans-serif;
-	font-size: 17px;
 }
 
 div#mainarea > div#headline {
@@ -90,12 +91,31 @@ div.buttonbar > div:hover, div.buttonbar > div.active {
 }
 
 div.buttonbar > div.oneoftwo {
+	margin-top: 0%;
 	display: inline-block;
 	width: 45%;
 }
 
 div.buttonbar > div.oneoftwo:first-child {
 	margin-right: 5%;
+}
+
+div.buttonbar > div.oneofthree {
+	margin-top: 0%;
+	display: inline-block;
+	width: 29%;
+	margin-left: 3%;
+}
+
+div.buttonbar > div.oneofthree:first-child {
+	margin-left: 0%;
+}
+
+div.buttonbar > div.twoofthree {
+	margin-top: 0%;
+	display: inline-block;
+	width: 63%;
+	margin-left: 3%;
 }
 
 div.popup {

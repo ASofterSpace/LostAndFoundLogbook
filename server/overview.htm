@@ -2,6 +2,23 @@
 
 <div id="headline">Item Overview</div>
 
+<div id="div-show-kind">Currently showing all items.</div>
+
+<div class="buttonbar">
+	<div id="show-kind-btn-0" onclick="showLostAndFound();" class="oneofthree">Show all items</div>
+	<div id="show-kind-btn-1" onclick="showLostOnly();" class="oneofthree">Only show lost items</div>
+	<div id="show-kind-btn-2" onclick="showFoundOnly();" class="oneofthree">Only show found items</div>
+</div>
+
+<div id="div-show-cats">Currently showing all categories.</div>
+
+<div class="buttonbar">
+	<div id="show-cat-btn-all" onclick="showAllCats();" class="oneofthree">Show all categories</div>
+	<div id="show-cat-btn-sel" onclick="showSelectedCat();" class="twoofthree">Only show: <select id="show-cat-select" onchange="showSelectedCat();">@include(categoryOptions.htm)</select></div>
+</div>
+
+&nbsp;
+
 <div id="contentcontainer">Getting the list of all items from the server...</div>
 
 <script>
@@ -17,21 +34,51 @@
 				  .replace(/'/g, "&"+"#039;");
 	}
 
-	var request = new XMLHttpRequest();
-	request.open("POST", "/items", false);
-	request.setRequestHeader("Content-Type", "application/json");
+	var showKind = 0;
+	var showCat = "*";
 
-	// TODO :: add different categories of things (and show overviews over just items of that category)
-	request.onreadystatechange = function() {
-		if (request.readyState == 4 && request.status == 200) {
+	function reShow() {
 
-			var data = JSON.parse(request.responseText);
-			var lostItems = data.lostItems;
-			var foundItems = data.foundItems;
-			var out = "";
+		// update based on the kind (all, lost, found)
+		document.getElementById("show-kind-btn-0").className = "oneofthree";
+		document.getElementById("show-kind-btn-1").className = "oneofthree";
+		document.getElementById("show-kind-btn-2").className = "oneofthree";
+		document.getElementById("show-kind-btn-" + showKind).className = "oneofthree active";
 
-			for (var i = 0; i < lostItems.length; i++) {
-				var item = lostItems[i];
+		var lostItems = lostAndFoundData.lostItems;
+		var foundItems = lostAndFoundData.foundItems;
+
+		switch (showKind) {
+			case 0:
+				document.getElementById("div-show-kind").innerHTML = "Currently showing all items.";
+				break;
+			case 1:
+				document.getElementById("div-show-kind").innerHTML = "Currently showing lost items only.";
+				foundItems = [];
+				break;
+			case 2:
+				document.getElementById("div-show-kind").innerHTML = "Currently showing found items only.";
+				lostItems = [];
+				break;
+		}
+
+		// update based on the category
+		if (showCat == "*") {
+			document.getElementById("show-cat-btn-all").className = "oneofthree active";
+			document.getElementById("show-cat-btn-sel").className = "twoofthree";
+			document.getElementById("div-show-cats").innerHTML = "Currently showing all categories.";
+		} else {
+			document.getElementById("show-cat-btn-all").className = "oneofthree";
+			document.getElementById("show-cat-btn-sel").className = "twoofthree active";
+			document.getElementById("div-show-cats").innerHTML = "Currently showing " + toCat(showCat) + ".";
+		}
+
+		// actually show the results
+		var out = "";
+
+		for (var i = 0; i < lostItems.length; i++) {
+			var item = lostItems[i];
+			if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
 					out += "<div>What: " + toHtml(item.what) + "</div>";
@@ -43,9 +90,11 @@
 					out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
 				out += "</div>";
 			}
+		}
 
-			for (var i = 0; i < foundItems.length; i++) {
-				var item = foundItems[i];
+		for (var i = 0; i < foundItems.length; i++) {
+			var item = foundItems[i];
+			if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
 				out += "<div id='item_" + item.id + "'>";
 					out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
 					out += "<div>What: " + toHtml(item.what) + "</div>";
@@ -58,8 +107,47 @@
 					out += "<div>Who: " + toHtml(item.who) + "</div>";
 				out += "</div>";
 			}
+		}
 
-			document.getElementById("contentcontainer").innerHTML = out;
+		document.getElementById("contentcontainer").innerHTML = out;
+	}
+
+	function showLostAndFound() {
+		showKind = 0;
+		reShow();
+	}
+
+	function showLostOnly() {
+		showKind = 1;
+		reShow();
+	}
+
+	function showFoundOnly() {
+		showKind = 2;
+		reShow();
+	}
+
+	function showAllCats() {
+		showCat = "*";
+		reShow();
+	}
+
+	function showSelectedCat() {
+		showCat = document.getElementById("show-cat-select").value;
+		reShow();
+	}
+
+	var request = new XMLHttpRequest();
+	request.open("POST", "/items", false);
+	request.setRequestHeader("Content-Type", "application/json");
+
+	// TODO :: add different categories of things (and show overviews over just items of that category)
+	request.onreadystatechange = function() {
+		if (request.readyState == 4 && request.status == 200) {
+
+			window.lostAndFoundData = JSON.parse(request.responseText);
+
+			reShow();
 		}
 	}
 

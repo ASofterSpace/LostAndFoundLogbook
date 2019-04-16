@@ -6,6 +6,15 @@
 
 <script>
 
+	function toHtml(str) {
+		return str.replace(/&/g, "&amp;")
+				  .replace(/</g, "&lt;")
+				  .replace(/>/g, "&gt;")
+				  .replace(/\n/g, "<br>")
+				  .replace(/"/g, "&quot;")
+				  .replace(/'/g, "&"+"#039;");
+	}
+
 	var request = new XMLHttpRequest();
 	request.open("POST", "/items", false);
 	request.setRequestHeader("Content-Type", "application/json");
@@ -22,27 +31,27 @@
 			for (var i = 0; i < lostItems.length; i++) {
 				var item = lostItems[i];
 				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Item #" + item.id + " (Lost)</h3>";
-					out += "<div>What: " + item.what.split("\n").join("<br>") + "</div>";
-					out += "<div>When: " + item.when.split("\n").join("<br>") + "</div>";
-					out += "<div>Where: " + item.where.split("\n").join("<br>") + "</div>";
-					out += "<div>Who: " + item.who.split("\n").join("<br>") + "</div>";
-					out += "<div>On-site Contact: " + item.contactonsite.split("\n").join("<br>") + "</div>";
-					out += "<div>Off-site Contact: " + item.contactoffsite.split("\n").join("<br>") + "</div>";
+					out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
+					out += "<div>What: " + toHtml(item.what) + "</div>";
+					out += "<div>When: " + toHtml(item.when) + "</div>";
+					out += "<div>Where: " + toHtml(item.where) + "</div>";
+					out += "<div>Who: " + toHtml(item.who) + "</div>";
+					out += "<div>On-site Contact: " + toHtml(item.contactonsite) + "</div>";
+					out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
 				out += "</div>";
 			}
 
 			for (var i = 0; i < foundItems.length; i++) {
 				var item = foundItems[i];
 				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Item #" + item.id + " (Found)</h3>";
-					out += "<div>What: " + item.what.split("\n").join("<br>") + "</div>";
+					out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
+					out += "<div>What: " + toHtml(item.what) + "</div>";
 					if (item.picture) {
 						out += "<img src=\"/" + item.picture + "\" />";
 					}
-					out += "<div>When: " + item.when.split("\n").join("<br>") + "</div>";
-					out += "<div>Where: " + item.where.split("\n").join("<br>") + "</div>";
-					out += "<div>Who: " + item.who.split("\n").join("<br>") + "</div>";
+					out += "<div>When: " + toHtml(item.when) + "</div>";
+					out += "<div>Where: " + toHtml(item.where) + "</div>";
+					out += "<div>Who: " + toHtml(item.who) + "</div>";
 				out += "</div>";
 			}
 

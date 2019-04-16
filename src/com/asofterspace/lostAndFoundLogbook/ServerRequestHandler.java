@@ -54,7 +54,7 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 				break;
 
 			case "/items":
-				String jsonAnswer = db.getItems(json);
+				JSON jsonAnswer = db.getItems(json);
 				if (jsonAnswer == null) {
 					respond(400);
 					return;

@@ -51,18 +51,14 @@ public class Database {
 	public void saveLostItem(JSON item) {
 
 		XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
-
 		XmlElement lostItem = lostItems.createChild(LOST_ITEM);
 
 		increaseMaxId();
-
 		lostItem.createChild("id").setInnerText(maxid);
-		lostItem.createChild("what").setInnerText(item.getString("what"));
-		lostItem.createChild("when").setInnerText(item.getString("when"));
-		lostItem.createChild("where").setInnerText(item.getString("where"));
-		lostItem.createChild("who").setInnerText(item.getString("who"));
-		lostItem.createChild("contactonsite").setInnerText(item.getString("contactonsite"));
-		lostItem.createChild("contactoffsite").setInnerText(item.getString("contactoffsite"));
+
+		// explicitly mention what we want to get to not save crap into the database
+		XmlElement itemData = item.toXml("what", "when", "where", "who", "contactonsite", "contactoffsite");
+		lostItem.addChildrenOf(itemData);
 
 		saveDatabase();
 	}
@@ -70,16 +66,14 @@ public class Database {
 	public void saveFoundItem(JSON item) {
 
 		XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
-
 		XmlElement foundItem = foundItems.createChild(FOUND_ITEM);
 
 		increaseMaxId();
-
 		foundItem.createChild("id").setInnerText(maxid);
-		foundItem.createChild("what").setInnerText(item.getString("what"));
-		foundItem.createChild("when").setInnerText(item.getString("when"));
-		foundItem.createChild("where").setInnerText(item.getString("where"));
-		foundItem.createChild("who").setInnerText(item.getString("who"));
+
+		// explicitly mention what we want to get to not save crap into the database
+		XmlElement itemData = item.toXml("what", "when", "where", "who");
+		foundItem.addChildrenOf(itemData);
 
 		String picStrBase64 = item.getString("picture");
 		if (picStrBase64 != null) {
@@ -113,72 +107,34 @@ public class Database {
 		maxidEl.setInnerText(maxid);
 	}
 
-	public String getItems(JSON request) {
+	public JSON getItems(JSON request) {
 
 		// get all the items
 		if ("*".equals(request.getString("id"))) {
 
-			StringBuilder result = new StringBuilder();
+			JSON result = new JSON();
 
-			result.append("{");
-
-			result.append("\"lostItems\":[");
+			JSON lostItemsJson = new JSON();
 
 			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
-			String sep = "";
 
 			for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
-				result.append(sep);
-				sep = ",";
-				result.append("{\"id\": ");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("id").getInnerText()));
-				result.append(", \"what\": \"");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("what").getInnerText()));
-				result.append("\", \"when\": \"");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("when").getInnerText()));
-				result.append("\", \"where\": \"");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("where").getInnerText()));
-				result.append("\", \"who\": \"");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("who").getInnerText()));
-				result.append("\", \"contactonsite\": \"");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("contactonsite").getInnerText()));
-				result.append("\", \"contactoffsite\": \"");
-				result.append(JSON.escapeJSONstr(lostItem.getChild("contactoffsite").getInnerText()));
-				result.append("\"}");
+				lostItemsJson.append(lostItem.toJson());
 			}
 
-			result.append("],");
+			result.set("lostItems", lostItemsJson);
 
-			result.append("\"foundItems\":[");
+			JSON foundItemsJson = new JSON();
 
 			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
-			sep = "";
 
 			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
-				result.append(sep);
-				sep = ",";
-				result.append("{\"id\": ");
-				result.append(JSON.escapeJSONstr(foundItem.getChild("id").getInnerText()));
-				result.append(", \"what\": \"");
-				result.append(JSON.escapeJSONstr(foundItem.getChild("what").getInnerText()));
-				result.append("\", \"when\": \"");
-				result.append(JSON.escapeJSONstr(foundItem.getChild("when").getInnerText()));
-				result.append("\", \"where\": \"");
-				result.append(JSON.escapeJSONstr(foundItem.getChild("where").getInnerText()));
-				result.append("\", \"who\": \"");
-				result.append(JSON.escapeJSONstr(foundItem.getChild("who").getInnerText()));
-				if (foundItem.getChild("picture") != null) {
-					result.append("\", \"picture\": \"");
-					result.append(JSON.escapeJSONstr(foundItem.getChild("picture").getInnerText()));
-				}
-				result.append("\"}");
+				foundItemsJson.append(foundItem.toJson());
 			}
 
-			result.append("]");
+			result.set("foundItems", foundItemsJson);
 
-			result.append("}");
-
-			return result.toString();
+			return result;
 		}
 
 		return null;

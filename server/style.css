@@ -12,7 +12,7 @@ img {
 }
 
 img.smallimg {
-	max-width: 5em;
+	width: 10em;
 }
 
 div#sidebar {
@@ -86,8 +86,8 @@ div#mainarea > div#headline {
 
 div.divider {
 	background-color: #F3E8CF;
-	padding: 0.5em;
-	border-radius: 1em;
+	padding: 0.25em;
+	border-radius: 0.25em;
 }
 
 div.buttonbar > a, div.buttonbar > div {
@@ -99,6 +99,7 @@ div.buttonbar > a, div.buttonbar > div {
 	margin-top: 1em;
 	text-decoration: none;
 	cursor: pointer;
+	box-sizing: border-box;
 }
 
 div.buttonbar > div:hover, div.buttonbar > div.active {
@@ -108,7 +109,7 @@ div.buttonbar > div:hover, div.buttonbar > div.active {
 div.buttonbar > div.oneoftwo {
 	margin-top: 0%;
 	display: inline-block;
-	width: 45%;
+	width: 47%;
 }
 
 div.buttonbar > div.oneoftwo:first-child {
@@ -118,7 +119,7 @@ div.buttonbar > div.oneoftwo:first-child {
 div.buttonbar > div.oneofthree {
 	margin-top: 0%;
 	display: inline-block;
-	width: 29%;
+	width: 31%;
 	margin-left: 3%;
 }
 
@@ -129,8 +130,19 @@ div.buttonbar > div.oneofthree:first-child {
 div.buttonbar > div.twoofthree {
 	margin-top: 0%;
 	display: inline-block;
-	width: 63%;
+	width: 65%;
 	margin-left: 3%;
+}
+
+div.flexcontainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+div#contentcontainer > a {
+	margin-right: 0.5em;
 }
 
 div.popup {

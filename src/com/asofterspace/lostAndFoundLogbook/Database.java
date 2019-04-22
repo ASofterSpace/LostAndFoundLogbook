@@ -137,7 +137,40 @@ public class Database {
 			return result;
 		}
 
-		return null;
+		// get a specific item
+		String idToFind = request.getString("id");
+
+		if (idToFind == null) {
+			return null;
+		}
+
+		JSON result = new JSON("{}");
+
+		JSON lostItemsJson = new JSON("[]");
+
+		XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
+
+		for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
+			if (idToFind.equals(lostItem.getChild("id").getInnerText())) {
+				lostItemsJson.append(lostItem.toJson());
+			}
+		}
+
+		result.set("lostItems", lostItemsJson);
+
+		JSON foundItemsJson = new JSON("[]");
+
+		XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
+
+		for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
+			if (idToFind.equals(foundItem.getChild("id").getInnerText())) {
+				foundItemsJson.append(foundItem.toJson());
+			}
+		}
+
+		result.set("foundItems", foundItemsJson);
+
+		return result;
 	}
 
 	public void loadDatabase() {

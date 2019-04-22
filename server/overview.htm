@@ -2,30 +2,32 @@
 
 <div id="headline">Item Overview</div>
 
-<div class="buttonbar">
-	<div id="show-kind-btn-0" onclick="showLostAndFound();" class="oneofthree">Show all items</div>
-	<div id="show-kind-btn-1" onclick="showLostOnly();" class="oneofthree">Only show lost items</div>
-	<div id="show-kind-btn-2" onclick="showFoundOnly();" class="oneofthree">Only show found items</div>
+<div id="selectors">
+	<div class="buttonbar">
+		<div id="show-kind-btn-0" onclick="showLostAndFound();" class="oneofthree">Show all items</div>
+		<div id="show-kind-btn-1" onclick="showLostOnly();" class="oneofthree">Only show lost items</div>
+		<div id="show-kind-btn-2" onclick="showFoundOnly();" class="oneofthree">Only show found items</div>
+	</div>
+
+	<div id="div-show-kind"></div>
+
+	<div class="buttonbar">
+		<div id="show-cat-btn-all" onclick="showAllCats();" class="oneofthree">Show all categories</div>
+		<div id="show-cat-btn-sel" onclick="showSelectedCat();" class="twoofthree">Only show: <select id="show-cat-select" onchange="showSelectedCat();">@include(categoryOptions.htm)</select></div>
+	</div>
+
+	<div id="div-show-cats"></div>
+
+	<div class="buttonbar">
+		<div id="show-imgsize-btn-0" onclick="setAndShowImageSize(0);" class="oneofthree">Show text + large images</div>
+		<div id="show-imgsize-btn-1" onclick="setAndShowImageSize(1);" class="oneofthree">Show text + small images</div>
+		<div id="show-imgsize-btn-2" onclick="setAndShowImageSize(2);" class="oneofthree">Show small images only</div>
+	</div>
+
+	<div id="div-show-imgsize"></div>
+
+	<!-- TODO :: add plain text search! -->
 </div>
-
-<div id="div-show-kind"></div>
-
-<div class="buttonbar">
-	<div id="show-cat-btn-all" onclick="showAllCats();" class="oneofthree">Show all categories</div>
-	<div id="show-cat-btn-sel" onclick="showSelectedCat();" class="twoofthree">Only show: <select id="show-cat-select" onchange="showSelectedCat();">@include(categoryOptions.htm)</select></div>
-</div>
-
-<div id="div-show-cats"></div>
-
-<div class="buttonbar">
-	<div id="show-imgsize-btn-0" onclick="setAndShowImageSize(0);" class="oneofthree">Show text + large images</div>
-	<div id="show-imgsize-btn-1" onclick="setAndShowImageSize(1);" class="oneofthree">Show text + small images</div>
-	<div id="show-imgsize-btn-2" onclick="setAndShowImageSize(2);" class="oneofthree">Show small images only</div>
-</div>
-
-<div id="div-show-imgsize"></div>
-
-<!-- TODO :: add plain text search! -->
 
 <div class="divider"></div>
 
@@ -126,29 +128,39 @@
 		for (var i = 0; i < foundItems.length; i++) {
 			var item = foundItems[i];
 			if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
-				out += "<div id='item_" + item.id + "'>";
+				if (showImageSize < 2) {
+					out += "<div id='item_" + item.id + "'>";
+				}
 					if (showImageSize < 2) {
 						out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
 						out += "<div>What: " + toHtml(item.what) + "</div>";
 						out += "<div>Category: " + toCat(item.cat) + "</div>";
 					}
 					if (item.picture) {
-						if (showImageSize < 1) {
-							out += "<img src=\"/" + item.picture + "\" />";
-						} else {
-							out += "<img src=\"/" + item.picture + "\" class=\"smallimg\" />";
+						var classname = "";
+						if (showImageSize > 0) {
+							classname = " class=\"smallimg\"";
 						}
+						out += "<a href=\"overview?item=" + item.id + "\"><img src=\"/" + item.picture + "\"" + classname + "/></a>";
 					}
 					if (showImageSize < 2) {
 						out += "<div>When: " + toHtml(item.when) + "</div>";
 						out += "<div>Where: " + toHtml(item.where) + "</div>";
 						out += "<div>Who: " + toHtml(item.who) + "</div>";
 					}
-				out += "</div>";
+				if (showImageSize < 2) {
+					out += "</div>";
+				}
 			}
 		}
 
 		document.getElementById("contentcontainer").innerHTML = out;
+
+		if (showImageSize < 2) {
+			document.getElementById("contentcontainer").className = "";
+		} else {
+			document.getElementById("contentcontainer").className = "flexcontainer";
+		}
 	}
 
 	function showLostAndFound() {
@@ -195,7 +207,21 @@
 		}
 	}
 
-	request.send("{\"id\": \"*\"}");
+	// if a specific item has been requested...
+	var pos = window.location.search.indexOf("?item=");
+
+	if (pos > -1) {
+
+		// ... then hide the selectors at the top and get just that item from the server
+		document.getElementById("selectors").style.display = "none";
+
+		request.send("{\"id\": " + window.location.search.substr(pos + 6) + "}");
+
+	} else {
+		// otherwise, get ALL items! :)
+		// (and hide nothing)
+		request.send("{\"id\": \"*\"}");
+	}
 
 </script>
 

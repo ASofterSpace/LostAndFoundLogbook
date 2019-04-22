@@ -2,22 +2,32 @@
 
 <div id="headline">Item Overview</div>
 
-<div id="div-show-kind">Currently showing all items.</div>
-
 <div class="buttonbar">
 	<div id="show-kind-btn-0" onclick="showLostAndFound();" class="oneofthree">Show all items</div>
 	<div id="show-kind-btn-1" onclick="showLostOnly();" class="oneofthree">Only show lost items</div>
 	<div id="show-kind-btn-2" onclick="showFoundOnly();" class="oneofthree">Only show found items</div>
 </div>
 
-<div id="div-show-cats">Currently showing all categories.</div>
+<div id="div-show-kind"></div>
 
 <div class="buttonbar">
 	<div id="show-cat-btn-all" onclick="showAllCats();" class="oneofthree">Show all categories</div>
 	<div id="show-cat-btn-sel" onclick="showSelectedCat();" class="twoofthree">Only show: <select id="show-cat-select" onchange="showSelectedCat();">@include(categoryOptions.htm)</select></div>
 </div>
 
-&nbsp;
+<div id="div-show-cats"></div>
+
+<div class="buttonbar">
+	<div id="show-imgsize-btn-0" onclick="setAndShowImageSize(0);" class="oneofthree">Show text + large images</div>
+	<div id="show-imgsize-btn-1" onclick="setAndShowImageSize(1);" class="oneofthree">Show text + small images</div>
+	<div id="show-imgsize-btn-2" onclick="setAndShowImageSize(2);" class="oneofthree">Show small images only</div>
+</div>
+
+<div id="div-show-imgsize"></div>
+
+<!-- TODO :: add plain text search! -->
+
+<div class="divider"></div>
 
 <div id="contentcontainer">Getting the list of all items from the server...</div>
 
@@ -35,9 +45,28 @@
 	}
 
 	var showKind = 0;
+	var showImageSize = 0;
 	var showCat = "*";
 
 	function reShow() {
+
+		// update based on the image size (text+large, text+small, small)
+		document.getElementById("show-imgsize-btn-0").className = "oneofthree";
+		document.getElementById("show-imgsize-btn-1").className = "oneofthree";
+		document.getElementById("show-imgsize-btn-2").className = "oneofthree";
+		document.getElementById("show-imgsize-btn-" + showImageSize).className = "oneofthree active";
+
+		switch (showImageSize) {
+			case 0:
+				document.getElementById("div-show-imgsize").innerHTML = "Currently showing text + large images.";
+				break;
+			case 1:
+				document.getElementById("div-show-imgsize").innerHTML = "Currently showing text + small images.";
+				break;
+			case 2:
+				document.getElementById("div-show-imgsize").innerHTML = "Currently showing small images only.";
+				break;
+		}
 
 		// update based on the kind (all, lost, found)
 		document.getElementById("show-kind-btn-0").className = "oneofthree";
@@ -76,19 +105,21 @@
 		// actually show the results
 		var out = "";
 
-		for (var i = 0; i < lostItems.length; i++) {
-			var item = lostItems[i];
-			if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
-				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
-					out += "<div>What: " + toHtml(item.what) + "</div>";
-					out += "<div>Category: " + toCat(item.cat) + "</div>";
-					out += "<div>When: " + toHtml(item.when) + "</div>";
-					out += "<div>Where: " + toHtml(item.where) + "</div>";
-					out += "<div>Who: " + toHtml(item.who) + "</div>";
-					out += "<div>On-site Contact: " + toHtml(item.contactonsite) + "</div>";
-					out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
-				out += "</div>";
+		if (showImageSize < 2) {
+			for (var i = 0; i < lostItems.length; i++) {
+				var item = lostItems[i];
+				if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
+					out += "<div id='item_" + item.id + "'>";
+						out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
+						out += "<div>What: " + toHtml(item.what) + "</div>";
+						out += "<div>Category: " + toCat(item.cat) + "</div>";
+						out += "<div>When: " + toHtml(item.when) + "</div>";
+						out += "<div>Where: " + toHtml(item.where) + "</div>";
+						out += "<div>Who: " + toHtml(item.who) + "</div>";
+						out += "<div>On-site Contact: " + toHtml(item.contactonsite) + "</div>";
+						out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
+					out += "</div>";
+				}
 			}
 		}
 
@@ -96,15 +127,23 @@
 			var item = foundItems[i];
 			if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
 				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
-					out += "<div>What: " + toHtml(item.what) + "</div>";
-					out += "<div>Category: " + toCat(item.cat) + "</div>";
-					if (item.picture) {
-						out += "<img src=\"/" + item.picture + "\" />";
+					if (showImageSize < 2) {
+						out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
+						out += "<div>What: " + toHtml(item.what) + "</div>";
+						out += "<div>Category: " + toCat(item.cat) + "</div>";
 					}
-					out += "<div>When: " + toHtml(item.when) + "</div>";
-					out += "<div>Where: " + toHtml(item.where) + "</div>";
-					out += "<div>Who: " + toHtml(item.who) + "</div>";
+					if (item.picture) {
+						if (showImageSize < 1) {
+							out += "<img src=\"/" + item.picture + "\" />";
+						} else {
+							out += "<img src=\"/" + item.picture + "\" class=\"smallimg\" />";
+						}
+					}
+					if (showImageSize < 2) {
+						out += "<div>When: " + toHtml(item.when) + "</div>";
+						out += "<div>Where: " + toHtml(item.where) + "</div>";
+						out += "<div>Who: " + toHtml(item.who) + "</div>";
+					}
 				out += "</div>";
 			}
 		}
@@ -124,6 +163,11 @@
 
 	function showFoundOnly() {
 		showKind = 2;
+		reShow();
+	}
+
+	function setAndShowImageSize(newSize) {
+		showImageSize = newSize;
 		reShow();
 	}
 

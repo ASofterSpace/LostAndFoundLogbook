@@ -11,6 +11,10 @@ img {
 	max-width: 100%;
 }
 
+img.smallimg {
+	max-width: 5em;
+}
+
 div#sidebar {
 	width: 20%;
 	height: 100%;
@@ -78,6 +82,12 @@ div#mainarea > div#headline {
 	margin: 1em;
 	text-align: center;
 	font-size: 1.5em;
+}
+
+div.divider {
+	background-color: #F3E8CF;
+	padding: 0.5em;
+	border-radius: 1em;
 }
 
 div.buttonbar > a, div.buttonbar > div {

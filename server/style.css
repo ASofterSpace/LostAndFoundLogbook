@@ -19,6 +19,7 @@ div#sidebar {
 	box-sizing: border-box;
 	box-shadow: 0em 0em 2em 0em #444;
 	top: 0;
+	background-color: #fff;
 }
 
 div#sidebar > a {

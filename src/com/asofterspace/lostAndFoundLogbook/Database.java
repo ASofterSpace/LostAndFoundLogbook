@@ -112,9 +112,9 @@ public class Database {
 		// get all the items
 		if ("*".equals(request.getString("id"))) {
 
-			JSON result = new JSON();
+			JSON result = new JSON("{}");
 
-			JSON lostItemsJson = new JSON();
+			JSON lostItemsJson = new JSON("[]");
 
 			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 
@@ -124,7 +124,7 @@ public class Database {
 
 			result.set("lostItems", lostItemsJson);
 
-			JSON foundItemsJson = new JSON();
+			JSON foundItemsJson = new JSON("[]");
 
 			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 

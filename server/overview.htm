@@ -13,7 +13,7 @@
 
 	<div class="buttonbar">
 		<div id="show-cat-btn-all" onclick="showAllCats();" class="oneofthree">Show all categories</div>
-		<div id="show-cat-btn-sel" onclick="showSelectedCat();" class="twoofthree">Only show: <select id="show-cat-select" onchange="showSelectedCat();">@include(categoryOptions.htm)</select></div>
+		<div id="show-cat-btn-sel" onclick="showSelectedCat();" class="twoofthree">Only show:&nbsp;<select id="show-cat-select" onchange="showSelectedCat();">@include(categoryOptions.htm)</select></div>
 	</div>
 
 	<div id="div-show-cats"></div>
@@ -26,7 +26,11 @@
 
 	<div id="div-show-imgsize"></div>
 
-	<!-- TODO :: add plain text search! -->
+	<div class="buttonbar">
+		<div id="search-btn" onclick="reShow();">Search:&nbsp;<input type="text" id="search-input" onchange="reShow();"></input></div>
+	</div>
+
+	<div id="div-search-text"></div>
 </div>
 
 <div class="divider"></div>
@@ -49,8 +53,19 @@
 	var showKind = 0;
 	var showImageSize = 0;
 	var showCat = "*";
+	var searchText = "";
 
 	function reShow() {
+
+		// update based on search text
+		searchText = document.getElementById("search-input").value.toLowerCase();
+
+		document.getElementById("search-btn").className = "";
+		document.getElementById("div-search-text").innerHTML = "Currently not searching for any text.";
+		if (searchText != "") {
+			document.getElementById("search-btn").className = "active";
+			document.getElementById("div-search-text").innerHTML = 'Currently searching for the text "' + searchText + '".';
+		}
 
 		// update based on the image size (text+large, text+small, small)
 		document.getElementById("show-imgsize-btn-0").className = "oneofthree";
@@ -110,47 +125,107 @@
 		if (showImageSize < 2) {
 			for (var i = 0; i < lostItems.length; i++) {
 				var item = lostItems[i];
-				if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
-					out += "<div id='item_" + item.id + "'>";
-						out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
-						out += "<div>What: " + toHtml(item.what) + "</div>";
-						out += "<div>Category: " + toCat(item.cat) + "</div>";
-						out += "<div>When: " + toHtml(item.when) + "</div>";
-						out += "<div>Where: " + toHtml(item.where) + "</div>";
-						out += "<div>Who: " + toHtml(item.who) + "</div>";
-						out += "<div>On-site Contact: " + toHtml(item.contactonsite) + "</div>";
-						out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
-					out += "</div>";
+
+				if (showCat != "*") {
+					if (item.cat == null) {
+						if (showCat != "others") {
+							continue;
+						}
+					} else {
+						if (item.cat != showCat) {
+							continue;
+						}
+					}
 				}
+
+				if (searchText != "") {
+					var doShow = false;
+					if (item.what.toLowerCase().indexOf(searchText) > -1) {
+						doShow = true;
+					}
+					if (item.when.toLowerCase().indexOf(searchText) > -1) {
+						doShow = true;
+					}
+					if (item.where.toLowerCase().indexOf(searchText) > -1) {
+						doShow = true;
+					}
+					if (item.who.toLowerCase().indexOf(searchText) > -1) {
+						doShow = true;
+					}
+					if (!doShow) {
+						continue;
+					}
+				}
+
+				out += "<div id='item_" + item.id + "'>";
+					out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
+					out += "<div>What: " + toHtml(item.what) + "</div>";
+					out += "<div>Category: " + toCat(item.cat) + "</div>";
+					out += "<div>When: " + toHtml(item.when) + "</div>";
+					out += "<div>Where: " + toHtml(item.where) + "</div>";
+					out += "<div>Who: " + toHtml(item.who) + "</div>";
+					out += "<div>On-site Contact: " + toHtml(item.contactonsite) + "</div>";
+					out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
+				out += "</div>";
 			}
 		}
 
 		for (var i = 0; i < foundItems.length; i++) {
 			var item = foundItems[i];
-			if ((showCat == "*") || (item.cat == showCat) || ((item.cat == null) && (showCat == "others"))) {
-				if (showImageSize < 2) {
-					out += "<div id='item_" + item.id + "'>";
+
+			if (showCat != "*") {
+				if (item.cat == null) {
+					if (showCat != "others") {
+						continue;
+					}
+				} else {
+					if (item.cat != showCat) {
+						continue;
+					}
 				}
-					if (showImageSize < 2) {
-						out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
-						out += "<div>What: " + toHtml(item.what) + "</div>";
-						out += "<div>Category: " + toCat(item.cat) + "</div>";
-					}
-					if (item.picture) {
-						var classname = "";
-						if (showImageSize > 0) {
-							classname = " class=\"smallimg\"";
-						}
-						out += "<a href=\"overview?item=" + item.id + "\"><img src=\"/" + item.picture + "\"" + classname + "/></a>";
-					}
-					if (showImageSize < 2) {
-						out += "<div>When: " + toHtml(item.when) + "</div>";
-						out += "<div>Where: " + toHtml(item.where) + "</div>";
-						out += "<div>Who: " + toHtml(item.who) + "</div>";
-					}
-				if (showImageSize < 2) {
-					out += "</div>";
+			}
+
+			if (searchText != "") {
+				var doShow = false;
+				if (item.what.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
 				}
+				if (item.when.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
+				}
+				if (item.where.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
+				}
+				if (item.who.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
+				}
+				if (!doShow) {
+					continue;
+				}
+			}
+
+			if (showImageSize < 2) {
+				out += "<div id='item_" + item.id + "'>";
+			}
+				if (showImageSize < 2) {
+					out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
+					out += "<div>What: " + toHtml(item.what) + "</div>";
+					out += "<div>Category: " + toCat(item.cat) + "</div>";
+				}
+				if (item.picture) {
+					var classname = "";
+					if (showImageSize > 0) {
+						classname = " class=\"smallimg\"";
+					}
+					out += "<a href=\"overview?item=" + item.id + "\"><img src=\"/" + item.picture + "\"" + classname + "/></a>";
+				}
+				if (showImageSize < 2) {
+					out += "<div>When: " + toHtml(item.when) + "</div>";
+					out += "<div>Where: " + toHtml(item.where) + "</div>";
+					out += "<div>Who: " + toHtml(item.who) + "</div>";
+				}
+			if (showImageSize < 2) {
+				out += "</div>";
 			}
 		}
 

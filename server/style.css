@@ -15,6 +15,16 @@ img.smallimg {
 	width: 10em;
 }
 
+img#footerimg {
+	position: fixed;
+	bottom: 0;
+	z-index: -100;
+}
+
+div#footerplaceholder {
+	height: 12em;
+}
+
 div#sidebar {
 	width: 20%;
 	height: 100%;

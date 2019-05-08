@@ -19,8 +19,8 @@ import java.util.List;
 public class Main {
 
 	public final static String PROGRAM_TITLE = "LostAndFoundLogbook";
-	public final static String VERSION_NUMBER = "0.0.0.3(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
-	public final static String VERSION_DATE = "10. April 2019 - 13. April 2019";
+	public final static String VERSION_NUMBER = "0.0.0.4(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
+	public final static String VERSION_DATE = "10. April 2019 - 8. May 2019";
 
 
 	public static void main(String[] args) {

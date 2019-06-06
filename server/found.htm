@@ -19,43 +19,47 @@
 
 <div id="headline">Found Something</div>
 
-<div>Glad to hear that you have found something!</div>
+<div id="contentcontainer">
 
-<div>Please tell me about what you have found.</div>
+	<div>Glad to hear that you have found something!</div>
 
-<div>What have you found?</div>
+	<div>Please tell me about what you have found.</div>
 
-<textarea id="found-what" placeholder="E.g.:&#10;• A golden chain with some green stone attached to it; there is a picture of a duck or something with blueish eyes on the stone&#10;• A white phone (Android) with a Burning Man 2023 sticker"></textarea>
+	<div>What have you found?</div>
 
-<div>What category does it belong to?</div>
+	<textarea id="found-what" placeholder="E.g.:&#10;• A golden chain with some green stone attached to it; there is a picture of a duck or something with blueish eyes on the stone&#10;• A white phone (Android) with a Burning Man 2023 sticker"></textarea>
 
-<select id="found-cat">
-	@include(categoryOptions.htm)
-</select>
+	<div>What category does it belong to?</div>
 
-<div>Please take a picture of the found item:</div>
+	<select id="found-cat">
+		@include(categoryOptions.htm)
+	</select>
 
-<canvas id="found-picture" style="display: none;"></canvas>
+	<div>Please take a picture of the found item:</div>
 
-<div class="buttonbar">
-	<div onclick="openSnapshotPopup();">Take Photo with the Webcam of the Laptop</div>
-</div>
+	<canvas id="found-picture" style="display: none;"></canvas>
 
-<div>When have you found it?</div>
+	<div class="buttonbar">
+		<div onclick="openSnapshotPopup();">Take Photo with the Webcam of the Laptop</div>
+	</div>
 
-<textarea id="found-when" placeholder="E.g.:&#10;• Yesterday at 23:52&#10;• Just after the big fire drill that happened before the official start of Nowhere"></textarea>
+	<div>When have you found it?</div>
 
-<div>Where have you found it?</div>
+	<textarea id="found-when" placeholder="E.g.:&#10;• Yesterday at 23:52&#10;• Just after the big fire drill that happened before the official start of Nowhere"></textarea>
 
-<textarea id="found-where" placeholder="E.g.:&#10;• Just in front of the Gate&#10;• Halfway between MoN and the Red Cross"></textarea>
+	<div>Where have you found it?</div>
 
-<div>What is your name?<br>
-(Just in case the person whose item you found wants to know who to thank. ^^)</div>
+	<textarea id="found-where" placeholder="E.g.:&#10;• Just in front of the Gate&#10;• Halfway between MoN and the Red Cross"></textarea>
 
-<textarea id="found-who" placeholder="E.g.:&#10;• Jon Snow, Prince of Dragonstone&#10;• Hermione Jean Granger"></textarea>
+	<div>What is your name?<br>
+	(Just in case the person whose item you found wants to know who to thank. ^^)</div>
 
-<div class="buttonbar">
-	<div onclick="saveFoundItem();">Save this Found Item</div>
+	<textarea id="found-who" placeholder="E.g.:&#10;• Jon Snow, Prince of Dragonstone&#10;• Hermione Jean Granger"></textarea>
+
+	<div class="buttonbar">
+		<div onclick="saveFoundItem();">Save this Found Item</div>
+	</div>
+
 </div>
 
 

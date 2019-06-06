@@ -79,16 +79,16 @@ div#mainarea > div, div#contentcontainer > div {
 	margin-bottom: 0.5em;
 }
 
-div#mainarea > textarea {
+div#mainarea > textarea, div#contentcontainer > textarea {
 	height: 8em;
 }
 
-div#mainarea > textarea, div#mainarea > select {
+div#mainarea > textarea, div#mainarea > select, div#contentcontainer > textarea, div#contentcontainer > select {
 	width: 100%;
 	margin-bottom: 0.5em;
 }
 
-div#mainarea > div#headline {
+div#mainarea > div#headline, div#contentcontainer > div#headline {
 	margin: 1em;
 	text-align: center;
 	font-size: 1.5em;
@@ -151,8 +151,17 @@ div.flexcontainer {
 	align-items: center;
 }
 
+div#contentcontainer {
+	background-color: rgba(255, 255, 255, 0.85);
+	box-shadow: 0em 0em 2em 1em #FFF;
+}
+
 div#contentcontainer > a {
 	margin-right: 0.5em;
+}
+
+input#search-input {
+	width: 80%;
 }
 
 div.popup {

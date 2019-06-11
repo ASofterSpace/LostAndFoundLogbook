@@ -19,8 +19,8 @@ import java.util.List;
 public class Main {
 
 	public final static String PROGRAM_TITLE = "LostAndFoundLogbook";
-	public final static String VERSION_NUMBER = "0.0.0.5(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
-	public final static String VERSION_DATE = "10. April 2019 - 23. May 2019";
+	public final static String VERSION_NUMBER = "0.0.0.6(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
+	public final static String VERSION_DATE = "10. April 2019 - 11. June 2019";
 
 
 	public static void main(String[] args) {
@@ -51,13 +51,13 @@ public class Main {
 
 		engine.compileTo(webRoot);
 
-		System.out.println("Templating done, serving data now...");
-
 		Server server = new Server(webRoot, db);
 
 		List<String> whitelist = jsonConfig.getArrayAsStringList("files");
 
 		server.setWhitelist(whitelist);
+
+		System.out.println("Templating done, serving data now on " + server.getAddress() + ":" + server.getPort() + "...");
 
 		server.serve();
 

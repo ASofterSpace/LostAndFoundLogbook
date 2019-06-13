@@ -55,6 +55,10 @@
 
 <script>
 
+	// check if editing a specific item has been requested
+	var pos = window.location.search.indexOf("?edit=");
+	var editingMode = (pos > -1);
+
 	function clearData() {
 		document.getElementById("lost-what").value = "";
 		document.getElementById("lost-cat").value = "others";
@@ -63,6 +67,25 @@
 		document.getElementById("lost-who").value = "";
 		document.getElementById("lost-contact-onsite").value = "";
 		document.getElementById("lost-contact-offsite").value = "";
+	}
+
+	function setValueSafely(id, value) {
+		if (value) {
+			document.getElementById(id).value = value;
+		}
+	}
+
+	function initBasedOnEditItem() {
+
+		clearData();
+
+		setValueSafely("found-what", window.editItem.what);
+		setValueSafely("found-cat", window.editItem.cat);
+		setValueSafely("found-when", window.editItem.when);
+		setValueSafely("found-where", window.editItem.where);
+		setValueSafely("found-who", window.editItem.who);
+		setValueSafely("lost-contact-onsite", window.editItem.contactonsite);
+		setValueSafely("lost-contact-offsite", window.editItem.contactoffsite);
 	}
 
 	function saveLostItem() {
@@ -88,7 +111,29 @@
 			contactoffsite: document.getElementById("lost-contact-offsite").value,
 		};
 
+		if (editingMode) {
+			data.editId = window.editItem.id;
+		}
+
 		request.send(JSON.stringify(data));
+	}
+
+	if (editingMode) {
+		var request = new XMLHttpRequest();
+		request.open("POST", "/items", false);
+		request.setRequestHeader("Content-Type", "application/json");
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+
+				var items = JSON.parse(request.responseText).lostItems;
+
+				if (items.length > 0) {
+					window.editItem = items[0];
+					initBasedOnEditItem();
+				}
+			}
+		}
+		request.send("{\"id\": " + window.location.search.substr(pos + 6) + "}");
 	}
 
 </script>

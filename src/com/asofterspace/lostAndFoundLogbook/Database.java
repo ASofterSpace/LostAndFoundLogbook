@@ -7,8 +7,7 @@ package com.asofterspace.lostAndFoundLogbook;
 import com.asofterspace.toolbox.coders.Base64Decoder;
 import com.asofterspace.toolbox.io.BinaryFile;
 import com.asofterspace.toolbox.io.Directory;
-import com.asofterspace.toolbox.io.JSON;
-import com.asofterspace.toolbox.io.JsonFile;
+import com.asofterspace.toolbox.io.Record;
 import com.asofterspace.toolbox.io.SimpleFile;
 import com.asofterspace.toolbox.io.XML;
 import com.asofterspace.toolbox.io.XmlElement;
@@ -49,51 +48,67 @@ public class Database {
 		return dataDir;
 	}
 
-	public void saveLostItem(JSON item) {
+	public void saveLostItem(Record item) {
 
 		XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
-		XmlElement lostItem = lostItems.createChild(LOST_ITEM);
+		XmlElement lostItem = null;
 
-		increaseMaxId();
-		lostItem.createChild("id").setInnerText(maxid);
+		if (item.contains("editId")) {
+
+			lostItem = lostItems.getChildWithChild(LOST_ITEM, "id", item.getString("editId"));
+
+		} else {
+
+			lostItem = lostItems.createChild(LOST_ITEM);
+			increaseMaxId();
+			lostItem.createChild("id").setInnerText(maxid);
+		}
 
 		// explicitly mention what we want to get to not save crap into the database
 		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite");
 
-		lostItem.addChildrenOf(item);
+		lostItem.addOrUpdateChildrenOf(item);
 
 		saveDatabase();
 	}
 
-	public void saveFoundItem(JSON item) {
+	public void saveFoundItem(Record item) {
 
 		XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
-		XmlElement foundItem = foundItems.createChild(FOUND_ITEM);
+		XmlElement foundItem = null;
 
-		increaseMaxId();
-		foundItem.createChild("id").setInnerText(maxid);
+		if (item.contains("editId")) {
+
+			foundItem = foundItems.getChildWithChild(FOUND_ITEM, "id", item.getString("editId"));
+
+		} else {
+
+			foundItem = foundItems.createChild(FOUND_ITEM);
+			increaseMaxId();
+			foundItem.createChild("id").setInnerText(maxid);
+
+			String picStrBase64 = item.getString("picture");
+			if (picStrBase64 != null) {
+				// the picStrBase64 should look like the following, e.g.:
+				// data:image/jpeg;base64,
+				// data:image/png,
+				// (the ;base64 bit is optional)
+				if (picStrBase64.contains(",")) {
+					picStrBase64 = picStrBase64.substring(picStrBase64.indexOf(",") + 1);
+				}
+				String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
+				String picName = "pic" + maxid + ".jpg";
+				BinaryFile picFile = new BinaryFile(dataDir, picName);
+				picFile.saveContentStr(picStr);
+				foundItem.createChild("picture").setInnerText(picName);
+			}
+		}
 
 		// explicitly mention what we want to get to not save crap into the database
 		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "curlocation");
 
 		XmlElement itemData = new XmlElement(item);
-		foundItem.addChildrenOf(itemData);
-
-		String picStrBase64 = item.getString("picture");
-		if (picStrBase64 != null) {
-			// the picStrBase64 should look like the following, e.g.:
-			// data:image/jpeg;base64,
-			// data:image/png,
-			// (the ;base64 bit is optional)
-			if (picStrBase64.contains(",")) {
-				picStrBase64 = picStrBase64.substring(picStrBase64.indexOf(",") + 1);
-			}
-			String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
-			String picName = "pic" + maxid + ".jpg";
-			BinaryFile picFile = new BinaryFile(dataDir, picName);
-			picFile.saveContentStr(picStr);
-			foundItem.createChild("picture").setInnerText(picName);
-		}
+		foundItem.addOrUpdateChildrenOf(itemData);
 
 		saveDatabase();
 	}
@@ -111,29 +126,31 @@ public class Database {
 		maxidEl.setInnerText(maxid);
 	}
 
-	public JSON getItems(JSON request) {
+	public Record getItems(Record request) {
 
 		// get all the items
 		if ("*".equals(request.getString("id"))) {
 
-			JSON result = new JSON("{}");
+			Record result = new Record();
 
-			JSON lostItemsJson = new JSON("[]");
+			Record lostItemsJson = new Record();
+			lostItemsJson.makeArray();
 
 			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 
 			for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
-				lostItemsJson.append(new JSON(new XML(lostItem)));
+				lostItemsJson.append(new XML(lostItem));
 			}
 
 			result.set("lostItems", lostItemsJson);
 
-			JSON foundItemsJson = new JSON("[]");
+			Record foundItemsJson = new Record();
+			foundItemsJson.makeArray();
 
 			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 
 			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
-				foundItemsJson.append(new JSON(new XML(foundItem)));
+				foundItemsJson.append(new XML(foundItem));
 			}
 
 			result.set("foundItems", foundItemsJson);
@@ -148,27 +165,29 @@ public class Database {
 			return null;
 		}
 
-		JSON result = new JSON("{}");
+		Record result = new Record();
 
-		JSON lostItemsJson = new JSON("[]");
+		Record lostItemsJson = new Record();
+		lostItemsJson.makeArray();
 
 		XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 
 		for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
 			if (idToFind.equals(lostItem.getChild("id").getInnerText())) {
-				lostItemsJson.append(new JSON(new XML(lostItem)));
+				lostItemsJson.append(new XML(lostItem));
 			}
 		}
 
 		result.set("lostItems", lostItemsJson);
 
-		JSON foundItemsJson = new JSON("[]");
+		Record foundItemsJson = new Record();
+		foundItemsJson.makeArray();
 
 		XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 
 		for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
 			if (idToFind.equals(foundItem.getChild("id").getInnerText())) {
-				foundItemsJson.append(new JSON(new XML(foundItem)));
+				foundItemsJson.append(new XML(foundItem));
 			}
 		}
 

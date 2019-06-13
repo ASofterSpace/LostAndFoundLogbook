@@ -69,6 +69,10 @@
 
 <script>
 
+	// check if editing a specific item has been requested
+	var pos = window.location.search.indexOf("?edit=");
+	var editingMode = (pos > -1);
+
 	function openSnapshotPopup() {
 
 		document.getElementById("snapshotPopup").style.display = "block";
@@ -157,6 +161,25 @@
 		document.getElementById("found-curlocation").value = "";
 	}
 
+	function setValueSafely(id, value) {
+		if (value) {
+			document.getElementById(id).value = value;
+		}
+	}
+
+	function initBasedOnEditItem() {
+
+		clearData();
+
+		setValueSafely("found-what", window.editItem.what);
+		setValueSafely("found-cat", window.editItem.cat);
+		setValueSafely("found-when", window.editItem.when);
+		setValueSafely("found-where", window.editItem.where);
+		setValueSafely("found-who", window.editItem.who);
+		setValueSafely("found-curlocation", window.editItem.curlocation);
+		// TODO :: also add item.picture
+	}
+
 	function saveFoundItem() {
 
 		var request = new XMLHttpRequest();
@@ -179,6 +202,10 @@
 			curlocation: document.getElementById("found-curlocation").value,
 		};
 
+		if (editingMode) {
+			data.editId = window.editItem.id;
+		}
+
 		foundPicture = document.getElementById("found-picture");
 
 		if (foundPicture.style.display == "block") {
@@ -187,6 +214,24 @@
 		}
 
 		request.send(JSON.stringify(data));
+	}
+
+	if (editingMode) {
+		var request = new XMLHttpRequest();
+		request.open("POST", "/items", false);
+		request.setRequestHeader("Content-Type", "application/json");
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+
+				var items = JSON.parse(request.responseText).foundItems;
+
+				if (items.length > 0) {
+					window.editItem = items[0];
+					initBasedOnEditItem();
+				}
+			}
+		}
+		request.send("{\"id\": " + window.location.search.substr(pos + 6) + "}");
 	}
 
 </script>

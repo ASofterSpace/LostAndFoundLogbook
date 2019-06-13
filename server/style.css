@@ -54,15 +54,6 @@ div#sidebar > a.a_logo > img {
 	width: 100%;
 }
 
-a, a:visited {
-	text-decoration: none;
-	color: #000;
-}
-
-a:active, a:hover, a.active {
-	color: #d13d11;
-}
-
 h3 {
 	margin: 0;
 	font-size: 1em;
@@ -100,19 +91,27 @@ div.divider {
 	border-radius: 0.25em;
 }
 
-div.buttonbar > a, div.buttonbar > div {
-	display: block;
+a, a:visited, div.buttonbar > div, div.button {
+	text-decoration: none;
+	color: #000;
+}
+
+div.buttonbar > a, div.buttonbar > div, div.button, a.button {
+	display: inline-block;
 	background-color: #F3E8CF;
 	padding: 0.5em;
 	border-radius: 1em;
 	text-align: center;
-	margin-top: 1em;
-	text-decoration: none;
 	cursor: pointer;
 	box-sizing: border-box;
 }
 
-div.buttonbar > div:hover, div.buttonbar > div.active {
+div.buttonbar > a, div.buttonbar > div {
+	margin-top: 1em;
+	display: block;
+}
+
+a:active, a:hover, a.active, div.buttonbar > div:hover, div.buttonbar > div.active {
 	color: #d13d11;
 }
 
@@ -158,6 +157,12 @@ div#contentcontainer {
 
 div#contentcontainer > a {
 	margin-right: 0.5em;
+}
+
+a.editbtn, div.editbtn {
+	position: absolute;
+	right: 3%;
+	margin-top: 0.75em;
 }
 
 input#search-input {

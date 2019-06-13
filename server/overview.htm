@@ -39,6 +39,10 @@
 
 <script>
 
+	// check if only a specific item has been requested
+	var pos = window.location.search.indexOf("?item=");
+	var showingJustOne = (pos > -1);
+
 	@include(categoryFunction.js)
 
 	function toHtml(str) {
@@ -160,6 +164,10 @@
 					}
 				}
 
+				out += "<a class=\"button editbtn\" href=\"lost?edit=" + item.id + "\">Edit this item</a>";
+				if (!showingJustOne) {
+					out += "<a href=\"overview?item=" + item.id + "\">";
+				}
 				out += "<div id='item_" + item.id + "'>";
 				out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
 				out += "<div>What: " + toHtml(item.what) + "</div>";
@@ -180,6 +188,9 @@
 					out += "<div>Off-site contact: " + toHtml(item.contactoffsite) + "</div>";
 				}
 				out += "</div>";
+				if (!showingJustOne) {
+					out += "</a>";
+				}
 			}
 		}
 
@@ -218,6 +229,12 @@
 			}
 
 			if (showImageSize < 2) {
+				out += "<a class=\"button editbtn\" href=\"found?edit=" + item.id + "\">Edit this item</a>";
+			}
+			if (!showingJustOne) {
+				out += "<a href=\"overview?item=" + item.id + "\">";
+			}
+			if (showImageSize < 2) {
 				out += "<div id='item_" + item.id + "'>";
 				out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
 				out += "<div>What: " + toHtml(item.what) + "</div>";
@@ -228,7 +245,7 @@
 				if (showImageSize > 0) {
 					classname = " class=\"smallimg\"";
 				}
-				out += "<a href=\"overview?item=" + item.id + "\"><img src=\"/" + item.picture + "\"" + classname + "/></a>";
+				out += "<img src=\"/" + item.picture + "\"" + classname + "/>";
 			}
 			if (showImageSize < 2) {
 				if (item.when) {
@@ -244,6 +261,9 @@
 					out += "<div>Where is it / who has it now: " + toHtml(item.curlocation) + "</div>";
 				}
 				out += "</div>";
+			}
+			if (!showingJustOne) {
+				out += "</a>";
 			}
 		}
 
@@ -290,7 +310,6 @@
 	request.open("POST", "/items", false);
 	request.setRequestHeader("Content-Type", "application/json");
 
-	// TODO :: add different categories of things (and show overviews over just items of that category)
 	request.onreadystatechange = function() {
 		if (request.readyState == 4 && request.status == 200) {
 
@@ -301,9 +320,7 @@
 	}
 
 	// if a specific item has been requested...
-	var pos = window.location.search.indexOf("?item=");
-
-	if (pos > -1) {
+	if (showingJustOne) {
 
 		// ... then hide the selectors at the top and get just that item from the server
 		document.getElementById("selectors").style.display = "none";

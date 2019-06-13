@@ -161,14 +161,24 @@
 				}
 
 				out += "<div id='item_" + item.id + "'>";
-					out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
-					out += "<div>What: " + toHtml(item.what) + "</div>";
-					out += "<div>Category: " + toCat(item.cat) + "</div>";
-					out += "<div>When: " + toHtml(item.when) + "</div>";
-					out += "<div>Where: " + toHtml(item.where) + "</div>";
-					out += "<div>Who: " + toHtml(item.who) + "</div>";
-					out += "<div>On-site Contact: " + toHtml(item.contactonsite) + "</div>";
-					out += "<div>Off-site Contact: " + toHtml(item.contactoffsite) + "</div>";
+				out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
+				out += "<div>What: " + toHtml(item.what) + "</div>";
+				out += "<div>Category: " + toCat(item.cat) + "</div>";
+				if (item.when) {
+					out += "<div>Lost when: " + toHtml(item.when) + "</div>";
+				}
+				if (item.where) {
+					out += "<div>Lost where: " + toHtml(item.where) + "</div>";
+				}
+				if (item.who) {
+					out += "<div>Who lost it: " + toHtml(item.who) + "</div>";
+				}
+				if (item.contactonsite) {
+					out += "<div>On-site contact: " + toHtml(item.contactonsite) + "</div>";
+				}
+				if (item.contactoffsite) {
+					out += "<div>Off-site contact: " + toHtml(item.contactoffsite) + "</div>";
+				}
 				out += "</div>";
 			}
 		}
@@ -209,26 +219,30 @@
 
 			if (showImageSize < 2) {
 				out += "<div id='item_" + item.id + "'>";
+				out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
+				out += "<div>What: " + toHtml(item.what) + "</div>";
+				out += "<div>Category: " + toCat(item.cat) + "</div>";
 			}
-				if (showImageSize < 2) {
-					out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
-					out += "<div>What: " + toHtml(item.what) + "</div>";
-					out += "<div>Category: " + toCat(item.cat) + "</div>";
+			if (item.picture) {
+				var classname = "";
+				if (showImageSize > 0) {
+					classname = " class=\"smallimg\"";
 				}
-				if (item.picture) {
-					var classname = "";
-					if (showImageSize > 0) {
-						classname = " class=\"smallimg\"";
-					}
-					out += "<a href=\"overview?item=" + item.id + "\"><img src=\"/" + item.picture + "\"" + classname + "/></a>";
+				out += "<a href=\"overview?item=" + item.id + "\"><img src=\"/" + item.picture + "\"" + classname + "/></a>";
+			}
+			if (showImageSize < 2) {
+				if (item.when) {
+					out += "<div>Found when: " + toHtml(item.when) + "</div>";
 				}
-				if (showImageSize < 2) {
-					out += "<div>When: " + toHtml(item.when) + "</div>";
-					out += "<div>Where: " + toHtml(item.where) + "</div>";
-					out += "<div>Who: " + toHtml(item.who) + "</div>";
+				if (item.where) {
+					out += "<div>Found where: " + toHtml(item.where) + "</div>";
+				}
+				if (item.who) {
+					out += "<div>Who found it: " + toHtml(item.who) + "</div>";
+				}
+				if (item.curlocation) {
 					out += "<div>Where is it / who has it now: " + toHtml(item.curlocation) + "</div>";
 				}
-			if (showImageSize < 2) {
 				out += "</div>";
 			}
 		}

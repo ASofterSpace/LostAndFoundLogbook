@@ -42,6 +42,9 @@
 	@include(categoryFunction.js)
 
 	function toHtml(str) {
+		if (str == null) {
+			return "";
+		}
 		return str.replace(/&/g, "&amp;")
 				  .replace(/</g, "&lt;")
 				  .replace(/>/g, "&gt;")
@@ -223,6 +226,7 @@
 					out += "<div>When: " + toHtml(item.when) + "</div>";
 					out += "<div>Where: " + toHtml(item.where) + "</div>";
 					out += "<div>Who: " + toHtml(item.who) + "</div>";
+					out += "<div>Where is it / who has it now: " + toHtml(item.curlocation) + "</div>";
 				}
 			if (showImageSize < 2) {
 				out += "</div>";

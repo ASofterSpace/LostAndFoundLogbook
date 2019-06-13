@@ -10,6 +10,7 @@ import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.io.JsonFile;
 import com.asofterspace.toolbox.io.SimpleFile;
+import com.asofterspace.toolbox.io.XML;
 import com.asofterspace.toolbox.io.XmlElement;
 import com.asofterspace.toolbox.io.XmlFile;
 
@@ -57,8 +58,9 @@ public class Database {
 		lostItem.createChild("id").setInnerText(maxid);
 
 		// explicitly mention what we want to get to not save crap into the database
-		XmlElement itemData = item.toXml("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite");
-		lostItem.addChildrenOf(itemData);
+		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite");
+
+		lostItem.addChildrenOf(item);
 
 		saveDatabase();
 	}
@@ -72,7 +74,9 @@ public class Database {
 		foundItem.createChild("id").setInnerText(maxid);
 
 		// explicitly mention what we want to get to not save crap into the database
-		XmlElement itemData = item.toXml("what", "cat", "when", "where", "who");
+		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "curlocation");
+
+		XmlElement itemData = new XmlElement(item);
 		foundItem.addChildrenOf(itemData);
 
 		String picStrBase64 = item.getString("picture");
@@ -119,7 +123,7 @@ public class Database {
 			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 
 			for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
-				lostItemsJson.append(lostItem.toJson());
+				lostItemsJson.append(new JSON(new XML(lostItem)));
 			}
 
 			result.set("lostItems", lostItemsJson);
@@ -129,7 +133,7 @@ public class Database {
 			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 
 			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
-				foundItemsJson.append(foundItem.toJson());
+				foundItemsJson.append(new JSON(new XML(foundItem)));
 			}
 
 			result.set("foundItems", foundItemsJson);
@@ -152,7 +156,7 @@ public class Database {
 
 		for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
 			if (idToFind.equals(lostItem.getChild("id").getInnerText())) {
-				lostItemsJson.append(lostItem.toJson());
+				lostItemsJson.append(new JSON(new XML(lostItem)));
 			}
 		}
 
@@ -164,7 +168,7 @@ public class Database {
 
 		for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
 			if (idToFind.equals(foundItem.getChild("id").getInnerText())) {
-				foundItemsJson.append(foundItem.toJson());
+				foundItemsJson.append(new JSON(new XML(foundItem)));
 			}
 		}
 

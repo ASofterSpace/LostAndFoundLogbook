@@ -56,6 +56,10 @@
 
 	<textarea id="found-who" placeholder="E.g.:&#10;• Jon Snow, Prince of Dragonstone&#10;• Hermione Jean Granger"></textarea>
 
+	<div>Where is it now / who has it been given to?</div>
+
+	<textarea id="found-curlocation" placeholder="E.g.:&#10;• Given to the girl with the dragons&#10;• Stored at NoInfo"></textarea>
+
 	<div class="buttonbar">
 		<div onclick="saveFoundItem();">Save this Found Item</div>
 	</div>
@@ -150,6 +154,7 @@
 		document.getElementById("found-when").value = "";
 		document.getElementById("found-where").value = "";
 		document.getElementById("found-who").value = "";
+		document.getElementById("found-curlocation").value = "";
 	}
 
 	function saveFoundItem() {
@@ -171,6 +176,7 @@
 			when: document.getElementById("found-when").value,
 			where: document.getElementById("found-where").value,
 			who: document.getElementById("found-who").value,
+			curlocation: document.getElementById("found-curlocation").value,
 		};
 
 		foundPicture = document.getElementById("found-picture");

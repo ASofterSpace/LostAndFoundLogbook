@@ -52,16 +52,19 @@ public class Database {
 
 		XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 		XmlElement lostItem = null;
+		String currentId = null;
 
 		if (item.contains("editId")) {
 
-			lostItem = lostItems.getChildWithChild(LOST_ITEM, "id", item.getString("editId"));
+			currentId = item.getString("editId");
+			lostItem = lostItems.getChildWithChild(LOST_ITEM, "id", currentId);
 
 		} else {
 
 			lostItem = lostItems.createChild(LOST_ITEM);
 			increaseMaxId();
-			lostItem.createChild("id").setInnerText(maxid);
+			currentId = "" + maxid;
+			lostItem.createChild("id").setInnerText(currentId);
 		}
 
 		// explicitly mention what we want to get to not save crap into the database
@@ -76,32 +79,39 @@ public class Database {
 
 		XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 		XmlElement foundItem = null;
+		String currentId = null;
 
 		if (item.contains("editId")) {
 
-			foundItem = foundItems.getChildWithChild(FOUND_ITEM, "id", item.getString("editId"));
+			currentId = item.getString("editId");
+			foundItem = foundItems.getChildWithChild(FOUND_ITEM, "id", currentId);
 
 		} else {
 
 			foundItem = foundItems.createChild(FOUND_ITEM);
 			increaseMaxId();
-			foundItem.createChild("id").setInnerText(maxid);
+			currentId = "" + maxid;
+			foundItem.createChild("id").setInnerText(currentId);
+		}
 
-			String picStrBase64 = item.getString("picture");
-			if (picStrBase64 != null) {
-				// the picStrBase64 should look like the following, e.g.:
-				// data:image/jpeg;base64,
-				// data:image/png,
-				// (the ;base64 bit is optional)
-				if (picStrBase64.contains(",")) {
-					picStrBase64 = picStrBase64.substring(picStrBase64.indexOf(",") + 1);
-				}
-				String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
-				String picName = "pic" + maxid + ".jpg";
-				BinaryFile picFile = new BinaryFile(dataDir, picName);
-				picFile.saveContentStr(picStr);
-				foundItem.createChild("picture").setInnerText(picName);
+		String picStrBase64 = item.getString("picture");
+		if (picStrBase64 != null) {
+			// the picStrBase64 should look like the following, e.g.:
+			// data:image/jpeg;base64,
+			// data:image/png,
+			// (the ;base64 bit is optional)
+			if (picStrBase64.contains(",")) {
+				picStrBase64 = picStrBase64.substring(picStrBase64.indexOf(",") + 1);
 			}
+			String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
+			String picName = "pic" + currentId + ".jpg";
+			BinaryFile picFile = new BinaryFile(dataDir, picName);
+			picFile.saveContentStr(picStr);
+			XmlElement picEl = foundItem.getChild("picture");
+			if (picEl != null) {
+				foundItem.removeChild(picEl);
+			}
+			foundItem.createChild("picture").setInnerText(picName);
 		}
 
 		// explicitly mention what we want to get to not save crap into the database

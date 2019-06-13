@@ -39,6 +39,8 @@
 
 	<canvas id="found-picture" style="display: none;"></canvas>
 
+	<img id="found-picture-loaded-from-server" style="display:none;" />
+
 	<div class="buttonbar">
 		<div onclick="openSnapshotPopup();">Take Photo with the Webcam of the Laptop</div>
 	</div>
@@ -72,6 +74,7 @@
 	// check if editing a specific item has been requested
 	var pos = window.location.search.indexOf("?edit=");
 	var editingMode = (pos > -1);
+	var addedNewPicture = false;
 
 	function openSnapshotPopup() {
 
@@ -118,6 +121,12 @@
 		);
 
 		targetCanvas.style.display = "block";
+
+		// if we were showing an old picture (because we are editing an entry that had a picture before),
+		// hide it now, as there is a new one...
+		document.getElementById("found-picture-loaded-from-server").style.display = "none";
+
+		addedNewPicture = true;
 
 		snapshotCancel();
 	}
@@ -177,7 +186,13 @@
 		setValueSafely("found-where", window.editItem.where);
 		setValueSafely("found-who", window.editItem.who);
 		setValueSafely("found-curlocation", window.editItem.curlocation);
-		// TODO :: also add item.picture
+
+		// for item.picture, just show the picture, but do NOT transfer it again to the server
+		// on every save as long as it is not being updated :)
+		if (window.editItem.picture) {
+			document.getElementById("found-picture-loaded-from-server").src = window.editItem.picture;
+			document.getElementById("found-picture-loaded-from-server").style.display = "block";
+		}
 	}
 
 	function saveFoundItem() {
@@ -206,9 +221,8 @@
 			data.editId = window.editItem.id;
 		}
 
-		foundPicture = document.getElementById("found-picture");
-
-		if (foundPicture.style.display == "block") {
+		if (addedNewPicture) {
+			var foundPicture = document.getElementById("found-picture");
 			// send as normal quality JPEG...
 			data.picture = foundPicture.toDataURL("image/jpeg", 0.8);
 		}

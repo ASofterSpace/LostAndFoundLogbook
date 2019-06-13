@@ -21,13 +21,14 @@
 	}
 
 	function savedOk() {
-		clearData();
 		savedAnother();
+		clearData();
 	}
 
 	function savedAnother() {
 		document.getElementById("savedPopup").style.display = "none";
 		document.getElementById("overlay").style.display = "none";
+		editingMode = false;
 	}
 
 </script>

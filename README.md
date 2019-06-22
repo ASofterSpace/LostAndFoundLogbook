@@ -26,7 +26,7 @@ build.sh
 
 ## Run
 
-To start up the Log and Found Logbook server after it has been built, you can call under Windows:
+To start up the Lost and Found Logbook server after it has been built, you can call under Windows:
 
 ```
 run.bat
@@ -45,6 +45,20 @@ Finally, a directory called `data` is used to store the actual data (so informat
 
 When running this on `localhost`, and you don't want to tell firefox again and again that using the webcam for taking photos is allowed, you can enter `about:config` in the firefox URL bar, go to `media.navigator.permission.disabled` and set it to `true`.
 However, again, this should only be used when running this site on `localhost` - as soon as you connect to the real (and scary) internet again, you should switch this back to the default (`false`) such that you actually get asked before websites start doing whatever they want!
+
+## Test
+
+To run the Lost and Found Logbook selftest after it has been built, you can call it with the argument `--test`, or for short under Windows:
+
+```
+test.bat
+```
+
+Or under Linux:
+
+```
+test.sh
+```
 
 ## License
 

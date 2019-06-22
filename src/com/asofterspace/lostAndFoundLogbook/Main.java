@@ -4,6 +4,7 @@
  */
 package com.asofterspace.lostAndFoundLogbook;
 
+import com.asofterspace.lostAndFoundLogbook.test.AllTests;
 import com.asofterspace.toolbox.configuration.ConfigFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.JSON;
@@ -30,36 +31,27 @@ public class Main {
 		Utils.setVersionNumber(VERSION_NUMBER);
 		Utils.setVersionDate(VERSION_DATE);
 
+		if (args.length > 0) {
+			if (args[0].equals("--test")) {
+				System.exit(AllTests.run());
+			}
+
+			if (args[0].equals("--version")) {
+				System.out.println(Utils.getFullProgramIdentifierWithDate());
+				return;
+			}
+
+			if (args[0].equals("--version_for_zip")) {
+				System.out.println("version " + Utils.getVersionNumber());
+				return;
+			}
+		}
+
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been started...");
 
-		System.out.println("Loading the preexisting data about lost and found objects...");
+		LostAndFoundCtrl ctrl = new LostAndFoundCtrl();
 
-		Directory dataDir = new Directory("data");
-
-		Database db = new Database(dataDir);
-
-		System.out.println("Templating the web application...");
-
-		Directory origDir = new Directory("server");
-
-		JsonFile jsonConfigFile = new JsonFile(origDir, "webengine.json");
-		JSON jsonConfig = jsonConfigFile.getAllContents();
-
-		WebTemplateEngine engine = new WebTemplateEngine(origDir, jsonConfig);
-
-		Directory webRoot = new Directory("deployed");
-
-		engine.compileTo(webRoot);
-
-		Server server = new Server(webRoot, db);
-
-		List<String> whitelist = jsonConfig.getArrayAsStringList("files");
-
-		server.setWhitelist(whitelist);
-
-		System.out.println("Templating done, serving data now on " + server.getAddress() + ":" + server.getPort() + "...");
-
-		server.serve();
+		ctrl.startup();
 
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been stopped; goodbye! :)");
 	}

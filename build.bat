@@ -14,6 +14,7 @@ md coders
 md configuration
 md gui
 md io
+md test
 md utils
 md web
 
@@ -24,6 +25,7 @@ copy "..\Toolbox-Java\src\com\asofterspace\toolbox\coders\*.*" "src\com\asofters
 copy "..\Toolbox-Java\src\com\asofterspace\toolbox\configuration\*.*" "src\com\asofterspace\toolbox\configuration"
 copy "..\Toolbox-Java\src\com\asofterspace\toolbox\gui\*.*" "src\com\asofterspace\toolbox\gui"
 copy "..\Toolbox-Java\src\com\asofterspace\toolbox\io\*.*" "src\com\asofterspace\toolbox\io"
+copy "..\Toolbox-Java\src\com\asofterspace\toolbox\test\*.*" "src\com\asofterspace\toolbox\test"
 copy "..\Toolbox-Java\src\com\asofterspace\toolbox\utils\*.*" "src\com\asofterspace\toolbox\utils"
 copy "..\Toolbox-Java\src\com\asofterspace\toolbox\web\*.*" "src\com\asofterspace\toolbox\web"
 

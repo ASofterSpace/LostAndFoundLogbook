@@ -62,6 +62,11 @@
 
 	<textarea id="found-curlocation" placeholder="E.g.:&#10;• Given to the girl with the dragons&#10;• Stored at NoInfo"></textarea>
 
+	<div>
+		<input type="checkbox" id="found-delivered" name="found-delivered">
+		<label for="found-delivered">Has this item been delivered to its owner?</label>
+	</div>
+
 	<div class="buttonbar">
 		<div onclick="saveFoundItem();">Save this Found Item</div>
 	</div>
@@ -168,6 +173,7 @@
 		document.getElementById("found-where").value = "";
 		document.getElementById("found-who").value = "";
 		document.getElementById("found-curlocation").value = "";
+		document.getElementById("found-delivered").checked = false;
 	}
 
 	function setValueSafely(id, value) {
@@ -186,6 +192,9 @@
 		setValueSafely("found-where", window.editItem.where);
 		setValueSafely("found-who", window.editItem.who);
 		setValueSafely("found-curlocation", window.editItem.curlocation);
+		if (window.editItem.delivered) {
+			document.getElementById("found-delivered").checked = true;
+		}
 
 		// for item.picture, just show the picture, but do NOT transfer it again to the server
 		// on every save as long as it is not being updated :)
@@ -215,6 +224,7 @@
 			where: document.getElementById("found-where").value,
 			who: document.getElementById("found-who").value,
 			curlocation: document.getElementById("found-curlocation").value,
+			delivered: document.getElementById("found-delivered").checked,
 		};
 
 		if (editingMode) {

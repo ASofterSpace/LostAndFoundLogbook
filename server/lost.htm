@@ -46,6 +46,11 @@
 
 	<textarea id="lost-contact-offsite" placeholder="E.g.:&#10;• My email address is flufflduff99@example.com&#10;• Just send me a message on facebook; my name there is “Oink Polloink”"></textarea>
 
+	<div>
+		<input type="checkbox" id="lost-delivered" name="lost-delivered">
+		<label for="lost-delivered">Has this item been found and delivered to its owner?</label>
+	</div>
+
 	<div class="buttonbar">
 		<div onclick="saveLostItem();">Save this Lost Item</div>
 	</div>
@@ -67,6 +72,7 @@
 		document.getElementById("lost-who").value = "";
 		document.getElementById("lost-contact-onsite").value = "";
 		document.getElementById("lost-contact-offsite").value = "";
+		document.getElementById("lost-delivered").checked = false;
 	}
 
 	function setValueSafely(id, value) {
@@ -86,6 +92,10 @@
 		setValueSafely("found-who", window.editItem.who);
 		setValueSafely("lost-contact-onsite", window.editItem.contactonsite);
 		setValueSafely("lost-contact-offsite", window.editItem.contactoffsite);
+
+		if (window.editItem.delivered) {
+			document.getElementById("lost-delivered").checked = true;
+		}
 	}
 
 	function saveLostItem() {
@@ -109,6 +119,7 @@
 			who: document.getElementById("lost-who").value,
 			contactonsite: document.getElementById("lost-contact-onsite").value,
 			contactoffsite: document.getElementById("lost-contact-offsite").value,
+			delivered: document.getElementById("lost-delivered").checked,
 		};
 
 		if (editingMode) {

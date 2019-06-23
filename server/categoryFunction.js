@@ -19,7 +19,7 @@ function toCat(str) {
 		case "computers":
 			return "Computers, USB-Dongles, Computery Things";
 		case "glasses":
-			return "Glasses";
+			return "Glasses and Sunglasses";
 		case "jewelry":
 			return "Jewelry";
 		case "clocks":

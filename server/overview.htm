@@ -165,27 +165,34 @@
 				}
 
 				out += "<a class=\"button editbtn\" href=\"lost?edit=" + item.id + "\">Edit this item</a>";
+				var br = "<br>";
 				if (!showingJustOne) {
 					out += "<a href=\"overview?item=" + item.id + "\">";
+					br = "";
 				}
 				out += "<div id='item_" + item.id + "'>";
-				out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>";
-				out += "<div>What: " + toHtml(item.what) + "</div>";
-				out += "<div>Category: " + toCat(item.cat) + "</div>";
+				out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>" + br;
+				out += "<div>What: " + br + toHtml(item.what) + "</div>" + br;
+				out += "<div>Category: " + br + toCat(item.cat) + "</div>" + br;
 				if (item.when) {
-					out += "<div>Lost when: " + toHtml(item.when) + "</div>";
+					out += "<div>Lost when: " + br + toHtml(item.when) + "</div>" + br;
 				}
 				if (item.where) {
-					out += "<div>Lost where: " + toHtml(item.where) + "</div>";
+					out += "<div>Lost where: " + br + toHtml(item.where) + "</div>" + br;
 				}
 				if (item.who) {
-					out += "<div>Who lost it: " + toHtml(item.who) + "</div>";
+					out += "<div>Who lost it: " + br + toHtml(item.who) + "</div>" + br;
 				}
 				if (item.contactonsite) {
-					out += "<div>On-site contact: " + toHtml(item.contactonsite) + "</div>";
+					out += "<div>On-site contact: " + br + toHtml(item.contactonsite) + "</div>" + br;
 				}
 				if (item.contactoffsite) {
-					out += "<div>Off-site contact: " + toHtml(item.contactoffsite) + "</div>";
+					out += "<div>Off-site contact: " + br + toHtml(item.contactoffsite) + "</div>" + br;
+				}
+				if (item.delivered) {
+					out += "<div>Status: " + br + "This item has been found and delivered to its owner! :)</div>" + br;
+				} else {
+					out += "<div>Status: " + br + "Missing</div>" + br;
 				}
 				out += "</div>";
 				if (!showingJustOne) {
@@ -231,34 +238,41 @@
 			if (showImageSize < 2) {
 				out += "<a class=\"button editbtn\" href=\"found?edit=" + item.id + "\">Edit this item</a>";
 			}
+			var br = "<br>";
 			if (!showingJustOne) {
 				out += "<a href=\"overview?item=" + item.id + "\">";
+				br = "";
 			}
 			if (showImageSize < 2) {
 				out += "<div id='item_" + item.id + "'>";
-				out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>";
-				out += "<div>What: " + toHtml(item.what) + "</div>";
-				out += "<div>Category: " + toCat(item.cat) + "</div>";
+				out += "<h3>Item #" + toHtml(item.id) + " (Found)</h3>" + br;
+				out += "<div>What: " + br + toHtml(item.what) + "</div>" + br;
+				out += "<div>Category: " + br + toCat(item.cat) + "</div>" + br;
 			}
 			if (item.picture) {
 				var classname = "";
 				if (showImageSize > 0) {
 					classname = " class=\"smallimg\"";
 				}
-				out += "<img src=\"/" + item.picture + "\"" + classname + "/>";
+				out += "<img src=\"/" + item.picture + "\"" + classname + "/>" + br;
 			}
 			if (showImageSize < 2) {
 				if (item.when) {
-					out += "<div>Found when: " + toHtml(item.when) + "</div>";
+					out += "<div>Found when: " + br + toHtml(item.when) + "</div>" + br;
 				}
 				if (item.where) {
-					out += "<div>Found where: " + toHtml(item.where) + "</div>";
+					out += "<div>Found where: " + br + toHtml(item.where) + "</div>" + br;
 				}
 				if (item.who) {
-					out += "<div>Who found it: " + toHtml(item.who) + "</div>";
+					out += "<div>Who found it: " + br + toHtml(item.who) + "</div>" + br;
 				}
 				if (item.curlocation) {
-					out += "<div>Where is it / who has it now: " + toHtml(item.curlocation) + "</div>";
+					out += "<div>Where is it / who has it now: " + br + toHtml(item.curlocation) + "</div>" + br;
+				}
+				if (item.delivered) {
+					out += "<div>Status: " + br + "This item has been delivered to its owner! :)</div>" + br;
+				} else {
+					out += "<div>Status: " + br + "Not yet delivered</div>" + br;
 				}
 				out += "</div>";
 			}

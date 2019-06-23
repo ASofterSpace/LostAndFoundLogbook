@@ -68,7 +68,7 @@ public class Database {
 		}
 
 		// explicitly mention what we want to get to not save crap into the database
-		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite");
+		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite", "delivered");
 
 		lostItem.addOrUpdateChildrenOf(item);
 
@@ -115,7 +115,7 @@ public class Database {
 		}
 
 		// explicitly mention what we want to get to not save crap into the database
-		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "curlocation");
+		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "curlocation", "delivered");
 
 		XmlElement itemData = new XmlElement(item);
 		foundItem.addOrUpdateChildrenOf(itemData);
@@ -184,7 +184,9 @@ public class Database {
 
 		for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
 			if (idToFind.equals(lostItem.getChild("id").getInnerText())) {
-				lostItemsJson.append(new XML(lostItem));
+				Record item = new XML(lostItem);
+				item.get("delivered").convertTo(RecordKind.BOOLEAN);
+				lostItemsJson.append(item);
 			}
 		}
 
@@ -197,7 +199,9 @@ public class Database {
 
 		for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
 			if (idToFind.equals(foundItem.getChild("id").getInnerText())) {
-				foundItemsJson.append(new XML(foundItem));
+				Record item = new XML(foundItem);
+				item.get("delivered").convertTo(RecordKind.BOOLEAN);
+				foundItemsJson.append(item);
 			}
 		}
 

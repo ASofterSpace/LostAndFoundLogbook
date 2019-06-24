@@ -129,51 +129,60 @@
 		// actually show the results
 		var out = "";
 
-		if (showImageSize < 2) {
-			for (var i = 0; i < lostItems.length; i++) {
-				var item = lostItems[i];
+		for (var i = 0; i < lostItems.length; i++) {
+			var item = lostItems[i];
 
-				if (showCat != "*") {
-					if (item.cat == null) {
-						if (showCat != "others") {
-							continue;
-						}
-					} else {
-						if (item.cat != showCat) {
-							continue;
-						}
+			if (showCat != "*") {
+				if (item.cat == null) {
+					if (showCat != "others") {
+						continue;
 					}
-				}
-
-				if (searchText != "") {
-					var doShow = false;
-					if (item.what.toLowerCase().indexOf(searchText) > -1) {
-						doShow = true;
-					}
-					if (item.when.toLowerCase().indexOf(searchText) > -1) {
-						doShow = true;
-					}
-					if (item.where.toLowerCase().indexOf(searchText) > -1) {
-						doShow = true;
-					}
-					if (item.who.toLowerCase().indexOf(searchText) > -1) {
-						doShow = true;
-					}
-					if (!doShow) {
+				} else {
+					if (item.cat != showCat) {
 						continue;
 					}
 				}
+			}
 
-				out += "<a class=\"button editbtn\" href=\"lost?edit=" + item.id + "\">Edit this item</a>";
-				var br = "<br>";
-				if (!showingJustOne) {
-					out += "<a href=\"overview?item=" + item.id + "\">";
-					br = "";
+			if (searchText != "") {
+				var doShow = false;
+				if (item.what.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
 				}
+				if (item.when.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
+				}
+				if (item.where.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
+				}
+				if (item.who.toLowerCase().indexOf(searchText) > -1) {
+					doShow = true;
+				}
+				if (!doShow) {
+					continue;
+				}
+			}
+
+			if (showImageSize < 2) {
+				out += "<a class=\"button editbtn\" href=\"lost?edit=" + item.id + "\">Edit this item</a>";
+			}
+			var br = "<br>";
+			if (!showingJustOne) {
+				out += "<a href=\"overview?item=" + item.id + "\">";
+				br = "";
+			}
+			if (showImageSize < 2) {
 				out += "<div id='item_" + item.id + "'>";
 				out += "<h3>Item #" + toHtml(item.id) + " (Lost)</h3>" + br;
 				out += "<div>What: " + br + toHtml(item.what) + "</div>" + br;
 				out += "<div>Category: " + br + toCat(item.cat) + "</div>" + br;
+			}
+			var classname = "";
+			if (showImageSize > 0) {
+				classname = " class=\"smallimg\"";
+			}
+			out += "<img src=\"/basepic_" + item.cat + ".png\"" + classname + "/>" + br;
+			if (showImageSize < 2) {
 				if (item.when) {
 					out += "<div>Lost when: " + br + toHtml(item.when) + "</div>" + br;
 				}
@@ -195,9 +204,9 @@
 					out += "<div>Status: " + br + "Missing</div>" + br;
 				}
 				out += "</div>";
-				if (!showingJustOne) {
-					out += "</a>";
-				}
+			}
+			if (!showingJustOne) {
+				out += "</a>";
 			}
 		}
 
@@ -249,12 +258,14 @@
 				out += "<div>What: " + br + toHtml(item.what) + "</div>" + br;
 				out += "<div>Category: " + br + toCat(item.cat) + "</div>" + br;
 			}
+			var classname = "";
+			if (showImageSize > 0) {
+				classname = " class=\"smallimg\"";
+			}
 			if (item.picture) {
-				var classname = "";
-				if (showImageSize > 0) {
-					classname = " class=\"smallimg\"";
-				}
 				out += "<img src=\"/" + item.picture + "\"" + classname + "/>" + br;
+			} else {
+				out += "<img src=\"/basepic_" + item.cat + ".png\"" + classname + "/>" + br;
 			}
 			if (showImageSize < 2) {
 				if (item.when) {

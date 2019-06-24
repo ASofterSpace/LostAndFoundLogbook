@@ -10,7 +10,20 @@
 		"style.css",
 		"logo.png",
 		"dustfooter.jpg",
-		"smiley.png"
+		"smiley.png",
+		"basepic_bags.png",
+		"basepic_cards.png",
+		"basepic_clocks.png",
+		"basepic_clothes.png",
+		"basepic_computers.png",
+		"basepic_cups.png",
+		"basepic_glasses.png",
+		"basepic_jewelry.png",
+		"basepic_keys.png",
+		"basepic_lamps.png",
+		"basepic_others.png",
+		"basepic_phones.png",
+		"basepic_wallets.png"
 	],
 	"version": 3
 }

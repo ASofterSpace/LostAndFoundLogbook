@@ -8,6 +8,7 @@ import com.asofterspace.toolbox.coders.Base64Decoder;
 import com.asofterspace.toolbox.io.BinaryFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.Record;
+import com.asofterspace.toolbox.io.RecordKind;
 import com.asofterspace.toolbox.io.SimpleFile;
 import com.asofterspace.toolbox.io.XML;
 import com.asofterspace.toolbox.io.XmlElement;
@@ -149,7 +150,7 @@ public class Database {
 			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 
 			for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
-				lostItemsJson.append(new XML(lostItem));
+				lostItemsJson.append(publish(lostItem));
 			}
 
 			result.set("lostItems", lostItemsJson);
@@ -160,7 +161,7 @@ public class Database {
 			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 
 			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
-				foundItemsJson.append(new XML(foundItem));
+				foundItemsJson.append(publish(foundItem));
 			}
 
 			result.set("foundItems", foundItemsJson);
@@ -184,9 +185,7 @@ public class Database {
 
 		for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
 			if (idToFind.equals(lostItem.getChild("id").getInnerText())) {
-				Record item = new XML(lostItem);
-				item.get("delivered").convertTo(RecordKind.BOOLEAN);
-				lostItemsJson.append(item);
+				lostItemsJson.append(publish(lostItem));
 			}
 		}
 
@@ -199,15 +198,25 @@ public class Database {
 
 		for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
 			if (idToFind.equals(foundItem.getChild("id").getInnerText())) {
-				Record item = new XML(foundItem);
-				item.get("delivered").convertTo(RecordKind.BOOLEAN);
-				foundItemsJson.append(item);
+				foundItemsJson.append(publish(foundItem));
 			}
 		}
 
 		result.set("foundItems", foundItemsJson);
 
 		return result;
+	}
+
+	private Record publish(XmlElement xmlItem) {
+
+		Record item = new XML(xmlItem);
+
+		Record delivered = item.get("delivered");
+		if (delivered != null) {
+			delivered.convertTo(RecordKind.BOOLEAN);
+		}
+
+		return item;
 	}
 
 	public void loadDatabase() {

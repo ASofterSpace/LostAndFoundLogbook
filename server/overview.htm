@@ -181,7 +181,7 @@
 			if (showImageSize > 0) {
 				classname = " class=\"smallimg\"";
 			}
-			out += "<img src=\"/basepic_" + item.cat + ".png\"" + classname + "/>" + br;
+			out += "<img src=\"/basepic_" + item.cat + ".png\" title=\"" + toHtml(item.what) + "\"" + classname + "/>" + br;
 			if (showImageSize < 2) {
 				if (item.when) {
 					out += "<div>Lost when: " + br + toHtml(item.when) + "</div>" + br;
@@ -263,9 +263,9 @@
 				classname = " class=\"smallimg\"";
 			}
 			if (item.picture) {
-				out += "<img src=\"/" + item.picture + "\"" + classname + "/>" + br;
+				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"" + classname + "/>" + br;
 			} else {
-				out += "<img src=\"/basepic_" + item.cat + ".png\"" + classname + "/>" + br;
+				out += "<img src=\"/basepic_" + item.cat + ".png\" title=\"" + toHtml(item.what) + "\"" + classname + "/>" + br;
 			}
 			if (showImageSize < 2) {
 				if (item.when) {

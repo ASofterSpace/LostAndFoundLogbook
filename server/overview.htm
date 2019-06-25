@@ -31,6 +31,14 @@
 	</div>
 
 	<div id="div-search-text"></div>
+
+	<!-- div class="buttonbar">
+		<div id="show-year-btn-0" onclick="showAnyYear();" class="oneofthree">Show all items</div>
+		<div id="show-year-btn-1" onclick="showPreviousYears();" class="oneofthree">Only show 2017 + 2018 items</div>
+		<div id="show-year-btn-2" onclick="showCurrentYear();" class="oneofthree">Only show 2019 items</div>
+	</div>
+
+	<div id="div-show-year"></div -->
 </div>
 
 <div class="divider"></div>
@@ -61,6 +69,7 @@
 	var showImageSize = 0;
 	var showCat = "*";
 	var searchText = "";
+	var showYear = 0;
 
 	function reShow() {
 
@@ -129,6 +138,11 @@
 		// actually show the results
 		var out = "";
 
+		var picClassname = "";
+		if (showImageSize > 0) {
+			picClassname = " class=\"smallimg\"";
+		}
+
 		for (var i = 0; i < lostItems.length; i++) {
 			var item = lostItems[i];
 
@@ -177,11 +191,11 @@
 				out += "<div>What: " + br + toHtml(item.what) + "</div>" + br;
 				out += "<div>Category: " + br + toCat(item.cat) + "</div>" + br;
 			}
-			var classname = "";
-			if (showImageSize > 0) {
-				classname = " class=\"smallimg\"";
+			if (item.picture) {
+				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"" + picClassname + "/>" + br;
+			} else {
+				out += "<img src=\"/basepic_" + item.cat + ".png\" title=\"" + toHtml(item.what) + "\"" + picClassname + "/>" + br;
 			}
-			out += "<img src=\"/basepic_" + item.cat + ".png\" title=\"" + toHtml(item.what) + "\"" + classname + "/>" + br;
 			if (showImageSize < 2) {
 				if (item.when) {
 					out += "<div>Lost when: " + br + toHtml(item.when) + "</div>" + br;
@@ -258,14 +272,10 @@
 				out += "<div>What: " + br + toHtml(item.what) + "</div>" + br;
 				out += "<div>Category: " + br + toCat(item.cat) + "</div>" + br;
 			}
-			var classname = "";
-			if (showImageSize > 0) {
-				classname = " class=\"smallimg\"";
-			}
 			if (item.picture) {
-				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"" + classname + "/>" + br;
+				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"" + picClassname + "/>" + br;
 			} else {
-				out += "<img src=\"/basepic_" + item.cat + ".png\" title=\"" + toHtml(item.what) + "\"" + classname + "/>" + br;
+				out += "<img src=\"/basepic_" + item.cat + ".png\" title=\"" + toHtml(item.what) + "\"" + picClassname + "/>" + br;
 			}
 			if (showImageSize < 2) {
 				if (item.when) {

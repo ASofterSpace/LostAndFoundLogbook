@@ -153,6 +153,8 @@ public class Database {
 				lostItemsJson.append(publish(lostItem));
 			}
 
+			lostItemsJson.reverse();
+
 			result.set("lostItems", lostItemsJson);
 
 			Record foundItemsJson = new Record();
@@ -163,6 +165,8 @@ public class Database {
 			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
 				foundItemsJson.append(publish(foundItem));
 			}
+
+			foundItemsJson.reverse();
 
 			result.set("foundItems", foundItemsJson);
 
@@ -253,6 +257,7 @@ public class Database {
 
 	public void saveDatabase() {
 
+		xmlFile.getRoot().sortChildren(true);
 		xmlFile.save();
 	}
 }

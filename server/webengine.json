@@ -7,6 +7,7 @@
 		"found.htm",
 		"overview.htm",
 		"statistics.htm",
+		"export.htm",
 		"style.css",
 		"logo.png",
 		"dustfooter.jpg",
@@ -25,5 +26,5 @@
 		"basepic_phones.png",
 		"basepic_wallets.png"
 	],
-	"version": 3
+	"version": 4
 }

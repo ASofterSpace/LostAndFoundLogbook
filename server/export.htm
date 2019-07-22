@@ -1,0 +1,108 @@
+@include(top.htm)
+
+<div id="headline">Item Export</div>
+
+<div id="contentcontainer">Getting items from the server...</div>
+
+<script>
+
+	@include(utils.js)
+
+	@include(categoryFunction.js)
+
+	var onlyShowOpenItems = window.location.search.indexOf("kind=open") > -1;
+
+	var onlyShowFound = window.location.search.indexOf("which=found") > -1;
+	var onlyShowLost = window.location.search.indexOf("which=lost") > -1;
+
+	var onlyShowThisYear = window.location.search.indexOf("year=current") > -1;
+
+	function reShow() {
+
+		var lostItems = lostAndFoundData.lostItems;
+		var foundItems = lostAndFoundData.foundItems;
+
+		if (onlyShowFound) {
+			lostItems = [];
+		}
+		if (onlyShowLost) {
+			foundItems = [];
+		}
+
+		// actually show the results
+		var out = "";
+		var br = "";
+
+		for (var i = 0; i < lostItems.length; i++) {
+			var item = lostItems[i];
+
+			if (onlyShowOpenItems && item.delivered) {
+				continue;
+			}
+
+			out += "<div id='item_" + item.id + "'>";
+			out += "<h3>Item #" + toHtml(item.id) + " (Lost " + toCat(item.cat) + ")</h3>" + br;
+			out += "<div>" + toHtml(item.what) + "</div>" + br;
+			if (item.picture) {
+				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"/>" + br;
+			}
+			if (item.when) {
+				out += "<div>Lost when: " + br + toHtml(item.when) + "</div>" + br;
+			}
+			if (item.where) {
+				out += "<div>Lost where: " + br + toHtml(item.where) + "</div>" + br;
+			}
+			out += "</div>";
+		}
+
+		for (var i = 0; i < foundItems.length; i++) {
+			var item = foundItems[i];
+
+			if (onlyShowOpenItems && item.delivered) {
+				continue;
+			}
+
+			out += "<div id='item_" + item.id + "'>";
+			out += "<h3>Item #" + toHtml(item.id) + " (Found" + toCat(item.cat) + ")</h3>" + br;
+			out += "<div>" + toHtml(item.what) + "</div>" + br;
+
+			if (item.picture) {
+				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"/>" + br;
+			}
+
+			if (item.when) {
+				out += "<div>Found when: " + br + toHtml(item.when) + "</div>" + br;
+			}
+			if (item.where) {
+				out += "<div>Found where: " + br + toHtml(item.where) + "</div>" + br;
+			}
+			out += "</div>";
+		}
+
+		document.getElementById("contentcontainer").innerHTML = out;
+	}
+
+	var request = new XMLHttpRequest();
+	request.open("POST", "/items", false);
+	request.setRequestHeader("Content-Type", "application/json");
+
+	request.onreadystatechange = function() {
+		if (request.readyState == 4 && request.status == 200) {
+
+			window.lostAndFoundData = JSON.parse(request.responseText);
+
+			reShow();
+		}
+	}
+
+	// get ALL items! :)
+	if (onlyShowThisYear) {
+		// ... of this year ^^
+		request.send("{\"id\": \"*\", \"year\": \"current\"}");
+	} else {
+		request.send("{\"id\": \"*\"}");
+	}
+
+</script>
+
+@include(bottom.htm)

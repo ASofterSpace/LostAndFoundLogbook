@@ -47,23 +47,13 @@
 
 <script>
 
-	// check if only a specific item has been requested
-	var pos = window.location.search.indexOf("?item=");
-	var showingJustOne = (pos > -1);
+	@include(utils.js)
 
 	@include(categoryFunction.js)
 
-	function toHtml(str) {
-		if (str == null) {
-			return "";
-		}
-		return str.replace(/&/g, "&amp;")
-				  .replace(/</g, "&lt;")
-				  .replace(/>/g, "&gt;")
-				  .replace(/\n/g, "<br>")
-				  .replace(/"/g, "&quot;")
-				  .replace(/'/g, "&"+"#039;");
-	}
+	// check if only a specific item has been requested
+	var pos = window.location.search.indexOf("?item=");
+	var showingJustOne = (pos > -1);
 
 	var showKind = 0;
 	var showImageSize = 0;

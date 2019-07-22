@@ -20,8 +20,8 @@ public class Database {
 	// UPDATE NEXT YEAR!
 	private final static String THIS_YEAR = "2019";
 
-	// UPDATE NEXT YEAR!
-	private final static String[] PREVIOUS_YEARS = {"2017", "2018"};
+	// UPDATE NEXT YEAR! - MUST INCLUDE THIS YEAR!
+	private final static String[] PREVIOUS_YEARS = {"2017", "2018", "2019"};
 
 	private Directory dataDir;
 
@@ -145,6 +145,14 @@ public class Database {
 
 	public Record getItems(Record request) {
 
+		String getYear = null;
+		if (request.getString("year") != null) {
+			getYear = request.getString("year");
+			if ("current".equals(getYear)) {
+				getYear = THIS_YEAR;
+			}
+		}
+
 		// get all the items
 		if ("*".equals(request.getString("id"))) {
 
@@ -156,6 +164,12 @@ public class Database {
 			XmlElement lostItems = xmlRoot.getChild(LOST_ITEMS);
 
 			for (XmlElement lostItem : lostItems.getChildren(LOST_ITEM)) {
+				if (getYear != null) {
+					String whenStr = lostItem.getChild("when").getInnerText();
+					if (!whenStr.contains(getYear)) {
+						continue;
+					}
+				}
 				lostItemsJson.append(publish(lostItem));
 			}
 
@@ -169,6 +183,12 @@ public class Database {
 			XmlElement foundItems = xmlRoot.getChild(FOUND_ITEMS);
 
 			for (XmlElement foundItem : foundItems.getChildren(FOUND_ITEM)) {
+				if (getYear != null) {
+					String whenStr = foundItem.getChild("when").getInnerText();
+					if (!whenStr.contains(getYear)) {
+						continue;
+					}
+				}
 				foundItemsJson.append(publish(foundItem));
 			}
 

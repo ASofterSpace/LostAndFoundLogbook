@@ -1,0 +1,10 @@
+on phoenix we set the shell back to explorer.exe (such that it is easier to use for other people)
+
+we added the files lost_and_found_backend.bat and lost_and_found_frontend.bat to the Startup folder
+
+we configured firefox to be in English
+
+we configured firefox to allow starting up the web camera even from localhost - by basically telling it to ALWAYS ALWAYS allow it, for everyone:
+go to about:config
+set media.navigator.permission.disabled to true
+

@@ -17,6 +17,12 @@ import com.asofterspace.toolbox.io.XmlFile;
 
 public class Database {
 
+	// UPDATE NEXT YEAR!
+	private final static String THIS_YEAR = "2019";
+
+	// UPDATE NEXT YEAR!
+	private final static String[] PREVIOUS_YEARS = {"2017", "2018"};
+
 	private Directory dataDir;
 
 	private XmlFile xmlFile;
@@ -255,7 +261,38 @@ public class Database {
 		}
 	}
 
+	private void addYearToEntries(XmlElement parent) {
+
+		for (XmlElement lostItem : parent.getChildNodes()) {
+			boolean appendThisYear = true;
+			XmlElement when = lostItem.getChild("when");
+			if (when == null) {
+				when = lostItem.createChild("when");
+			}
+			String whenStr = when.getInnerText();
+			if (whenStr != null) {
+				for (String year : PREVIOUS_YEARS) {
+					if (whenStr.contains(year)) {
+						appendThisYear = false;
+					}
+				}
+			}
+			if (appendThisYear) {
+				if ((whenStr == null) || "".equals(whenStr)) {
+					whenStr = THIS_YEAR;
+				} else {
+					whenStr = whenStr + " " + THIS_YEAR;
+				}
+				when.setInnerText(whenStr);
+			}
+		}
+
+	}
+
 	public void saveDatabase() {
+
+		addYearToEntries(xmlFile.getRoot().getChild(LOST_ITEMS));
+		addYearToEntries(xmlFile.getRoot().getChild(FOUND_ITEMS));
 
 		xmlFile.getRoot().sortChildren(true);
 		xmlFile.save();

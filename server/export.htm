@@ -30,56 +30,74 @@
 		}
 
 		// actually show the results
-		var out = "";
+		var finalOut = "";
 		var br = "";
 
-		for (var i = 0; i < lostItems.length; i++) {
-			var item = lostItems[i];
+		for (var cati = 0; cati < categories.length; cati++) {
+			var curCategory = categories[cati];
+			var preOut = "<div style=\"text-align: center;\"><img src=\"/basepic_" + curCategory + ".png\"/></div>";
+			preOut += "<h3 style=\"text-align: center;\">" + toCat(curCategory) + ":</h3><br>";
 
-			if (onlyShowOpenItems && item.delivered) {
-				continue;
+			var out = "";
+
+			for (var i = 0; i < lostItems.length; i++) {
+				var item = lostItems[i];
+
+				if (item.cat != curCategory) {
+					continue;
+				}
+
+				if (onlyShowOpenItems && item.delivered) {
+					continue;
+				}
+
+				out += "<div id='item_" + item.id + "'>";
+				out += "<div>#" + toHtml(item.id) + ": " + toHtml(item.what) + "</div>" + br;
+				/*
+				if (item.picture) {
+					out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"/>" + br;
+				}
+				*/
+				out += "<div>Lost: " + toHtml(item.when);
+				if (item.where) {
+					out += " at " + toHtml(item.where);
+				}
+				out += "</div>";
+				out += "</div>";
 			}
 
-			out += "<div id='item_" + item.id + "'>";
-			out += "<h3>Item #" + toHtml(item.id) + " (Lost " + toCat(item.cat) + ")</h3>" + br;
-			out += "<div>" + toHtml(item.what) + "</div>" + br;
-			if (item.picture) {
-				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"/>" + br;
+			for (var i = 0; i < foundItems.length; i++) {
+				var item = foundItems[i];
+
+				if (item.cat != curCategory) {
+					continue;
+				}
+
+				if (onlyShowOpenItems && item.delivered) {
+					continue;
+				}
+
+				out += "<div id='item_" + item.id + "'>";
+				out += "<div>#" + toHtml(item.id) + ": " + toHtml(item.what) + "</div>" + br;
+				/*
+				if (item.picture) {
+					out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"/>" + br;
+				}
+				*/
+				out += "<div>Found: " + toHtml(item.when);
+				if (item.where) {
+					out += " at " + toHtml(item.where);
+				}
+				out += "</div>";
+				out += "</div>";
 			}
-			if (item.when) {
-				out += "<div>Lost when: " + br + toHtml(item.when) + "</div>" + br;
+
+			if (out != "") {
+				finalOut += preOut + out;
 			}
-			if (item.where) {
-				out += "<div>Lost where: " + br + toHtml(item.where) + "</div>" + br;
-			}
-			out += "</div>";
 		}
 
-		for (var i = 0; i < foundItems.length; i++) {
-			var item = foundItems[i];
-
-			if (onlyShowOpenItems && item.delivered) {
-				continue;
-			}
-
-			out += "<div id='item_" + item.id + "'>";
-			out += "<h3>Item #" + toHtml(item.id) + " (Found" + toCat(item.cat) + ")</h3>" + br;
-			out += "<div>" + toHtml(item.what) + "</div>" + br;
-
-			if (item.picture) {
-				out += "<img src=\"/" + item.picture + "\" title=\"" + toHtml(item.what) + "\"/>" + br;
-			}
-
-			if (item.when) {
-				out += "<div>Found when: " + br + toHtml(item.when) + "</div>" + br;
-			}
-			if (item.where) {
-				out += "<div>Found where: " + br + toHtml(item.where) + "</div>" + br;
-			}
-			out += "</div>";
-		}
-
-		document.getElementById("contentcontainer").innerHTML = out;
+		document.getElementById("contentcontainer").innerHTML = finalOut;
 	}
 
 	var request = new XMLHttpRequest();

@@ -31,8 +31,12 @@
 				FOUND SOMETHING
 			</a>
 
-			<a href="/overview" @if(pageStart="overview") class="active" @endif>
-				ITEM OVERVIEW
+			<a href="/overviewlost?kind=lost" @if(pageStart="overviewlost") class="active" @endif>
+				LOOK AT LOST ITEMS
+			</a>
+
+			<a href="/overviewfound?kind=found" @if(pageStart="overviewfound") class="active" @endif>
+				LOOK AT FOUND ITEMS
 			</a>
 
 			<a href="/statistics" @if(pageStart="statistics") class="active" @endif>

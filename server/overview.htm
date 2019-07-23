@@ -52,10 +52,19 @@
 	@include(categoryFunction.js)
 
 	// check if only a specific item has been requested
-	var pos = window.location.search.indexOf("?item=");
-	var showingJustOne = (pos > -1);
+	var justOnePos = window.location.search.indexOf("item=");
+	var showingJustOne = (justOnePos > -1);
 
 	var showKind = 0;
+
+	if (window.location.search.indexOf("kind=lost") > -1) {
+		showKind = 1;
+	}
+
+	if (window.location.search.indexOf("kind=found") > -1) {
+		showKind = 2;
+	}
+
 	var showImageSize = 0;
 	var showCat = "*";
 	var searchText = "";
@@ -350,7 +359,7 @@
 		// ... then hide the selectors at the top and get just that item from the server
 		document.getElementById("selectors").style.display = "none";
 
-		request.send("{\"id\": " + window.location.search.substr(pos + 6) + "}");
+		request.send("{\"id\": " + window.location.search.substr(justOnePos + 5) + "}");
 
 	} else {
 		// otherwise, get ALL items! :)

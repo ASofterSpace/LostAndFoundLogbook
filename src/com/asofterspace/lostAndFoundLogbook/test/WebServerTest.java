@@ -9,6 +9,7 @@ import com.asofterspace.toolbox.io.DefaultImageFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.File;
 import com.asofterspace.toolbox.io.JSON;
+import com.asofterspace.toolbox.io.JsonParseException;
 import com.asofterspace.toolbox.io.SimpleFile;
 import com.asofterspace.toolbox.test.Test;
 import com.asofterspace.toolbox.test.TestUtils;
@@ -29,7 +30,7 @@ public class WebServerTest implements Test {
 
 
 	@Override
-	public void runAll() {
+	public void runAll() throws JsonParseException {
 
 		WebAccessor.clearCache();
 
@@ -63,7 +64,7 @@ public class WebServerTest implements Test {
 		TestUtils.succeed();
 	}
 
-	public void getItemsFromServerTest() {
+	public void getItemsFromServerTest() throws JsonParseException {
 
 		TestUtils.start("Get Items from Server");
 

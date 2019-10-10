@@ -7,6 +7,7 @@ package com.asofterspace.lostAndFoundLogbook;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.File;
 import com.asofterspace.toolbox.io.JSON;
+import com.asofterspace.toolbox.io.JsonParseException;
 import com.asofterspace.toolbox.io.Record;
 import com.asofterspace.toolbox.web.WebServer;
 import com.asofterspace.toolbox.web.WebServerAnswer;
@@ -40,8 +41,15 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 		}
 
 
-		// TODO :: catch some exceptions? (or make sure that none are thrown?)
-		JSON json = new JSON(jsonData);
+		// TODO :: catch some IO exceptions? (or make sure that none are thrown?)
+
+		JSON json;
+		try {
+			json = new JSON(jsonData);
+		} catch (JsonParseException e) {
+			respond(400);
+			return;
+		}
 
 		WebServerAnswer answer = null;
 

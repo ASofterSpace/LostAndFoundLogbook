@@ -9,6 +9,7 @@ import com.asofterspace.toolbox.configuration.ConfigFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.io.JsonFile;
+import com.asofterspace.toolbox.io.JsonParseException;
 import com.asofterspace.toolbox.io.XmlFile;
 import com.asofterspace.toolbox.Utils;
 import com.asofterspace.toolbox.web.WebTemplateEngine;
@@ -51,7 +52,14 @@ public class Main {
 
 		LostAndFoundCtrl ctrl = new LostAndFoundCtrl();
 
-		ctrl.startup();
+		try {
+			ctrl.startup();
+
+		} catch (JsonParseException e) {
+			System.err.println("Loading the settings failed:");
+			System.err.println(e);
+			System.exit(1);
+		}
 
 		System.out.println("The " + Utils.getFullProgramIdentifierWithDate() + " has been stopped; goodbye! :)");
 	}

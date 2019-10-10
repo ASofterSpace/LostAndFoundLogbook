@@ -9,6 +9,7 @@ import com.asofterspace.toolbox.configuration.ConfigFile;
 import com.asofterspace.toolbox.io.Directory;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.io.JsonFile;
+import com.asofterspace.toolbox.io.JsonParseException;
 import com.asofterspace.toolbox.io.XmlFile;
 import com.asofterspace.toolbox.Utils;
 import com.asofterspace.toolbox.web.WebTemplateEngine;
@@ -26,15 +27,15 @@ public class LostAndFoundCtrl {
 	private Server server;
 
 
-	public void startup() {
+	public void startup() throws JsonParseException {
 		startup(false);
 	}
 
-	public void startupAsync() {
+	public void startupAsync() throws JsonParseException {
 		startup(true);
 	}
 
-	public void startup(boolean async) {
+	public void startup(boolean async) throws JsonParseException {
 
 		System.out.println("Loading the preexisting data about lost and found objects...");
 

@@ -7,12 +7,12 @@ package com.asofterspace.lostAndFoundLogbook;
 import com.asofterspace.toolbox.coders.Base64Decoder;
 import com.asofterspace.toolbox.io.BinaryFile;
 import com.asofterspace.toolbox.io.Directory;
-import com.asofterspace.toolbox.io.Record;
-import com.asofterspace.toolbox.io.RecordKind;
 import com.asofterspace.toolbox.io.SimpleFile;
 import com.asofterspace.toolbox.io.XML;
 import com.asofterspace.toolbox.io.XmlElement;
 import com.asofterspace.toolbox.io.XmlFile;
+import com.asofterspace.toolbox.utils.Record;
+import com.asofterspace.toolbox.utils.RecordKind;
 
 
 public class Database {

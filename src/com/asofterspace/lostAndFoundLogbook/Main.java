@@ -5,24 +5,15 @@
 package com.asofterspace.lostAndFoundLogbook;
 
 import com.asofterspace.lostAndFoundLogbook.test.AllTests;
-import com.asofterspace.toolbox.configuration.ConfigFile;
-import com.asofterspace.toolbox.io.Directory;
-import com.asofterspace.toolbox.io.JSON;
-import com.asofterspace.toolbox.io.JsonFile;
 import com.asofterspace.toolbox.io.JsonParseException;
-import com.asofterspace.toolbox.io.XmlFile;
 import com.asofterspace.toolbox.Utils;
-import com.asofterspace.toolbox.web.WebTemplateEngine;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Main {
 
 	public final static String PROGRAM_TITLE = "LostAndFoundLogbook";
-	public final static String VERSION_NUMBER = "0.0.0.8(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
-	public final static String VERSION_DATE = "10. April 2019 - 25. June 2019";
+	public final static String VERSION_NUMBER = "0.0.0.9(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
+	public final static String VERSION_DATE = "10. April 2019 - 30. March 2020";
 
 
 	public static void main(String[] args) {

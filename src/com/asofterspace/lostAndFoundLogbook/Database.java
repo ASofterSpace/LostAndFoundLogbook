@@ -75,7 +75,7 @@ public class Database {
 		}
 
 		// explicitly mention what we want to get to not save crap into the database
-		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite", "delivered");
+		item.removeAllExcept("what", "cat", "when", "where", "who", "contactonsite", "contactoffsite", "delivered");
 
 		lostItem.addOrUpdateChildrenOf(item);
 
@@ -122,7 +122,7 @@ public class Database {
 		}
 
 		// explicitly mention what we want to get to not save crap into the database
-		item.removeAllKeysExcept("what", "cat", "when", "where", "who", "curlocation", "delivered");
+		item.removeAllExcept("what", "cat", "when", "where", "who", "curlocation", "delivered");
 
 		XmlElement itemData = new XmlElement(item);
 		foundItem.addOrUpdateChildrenOf(itemData);

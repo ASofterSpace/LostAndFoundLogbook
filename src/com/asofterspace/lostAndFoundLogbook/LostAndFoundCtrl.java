@@ -6,6 +6,7 @@ package com.asofterspace.lostAndFoundLogbook;
 
 import com.asofterspace.toolbox.configuration.ConfigFile;
 import com.asofterspace.toolbox.io.Directory;
+import com.asofterspace.toolbox.io.File;
 import com.asofterspace.toolbox.io.JSON;
 import com.asofterspace.toolbox.io.JsonFile;
 import com.asofterspace.toolbox.io.JsonParseException;
@@ -54,7 +55,15 @@ public class LostAndFoundCtrl {
 
 		server = new Server(webRoot, db);
 
+		// automatically add specific project files to the server without having to list them all
+		// manually in the webengine.json, and without letting them be templated by the WebTemplateEngine!
+		// (as that would take a lot of time at startup each time...)
 		List<String> whitelist = jsonConfig.getArrayAsStringList("files");
+		boolean recursively = true;
+		List<File> dataFiles = dataDir.getAllFiles(recursively);
+		for (File dataFile : dataFiles) {
+			whitelist.add(dataDir.getRelativePath(dataFile).replace('\\', '/'));
+		}
 
 		server.setWhitelist(whitelist);
 

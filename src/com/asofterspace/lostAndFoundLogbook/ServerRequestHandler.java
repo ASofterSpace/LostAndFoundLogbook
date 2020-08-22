@@ -88,18 +88,26 @@ public class ServerRequestHandler extends WebServerRequestHandler {
 	@Override
 	protected File getFileFromLocation(String location, String[] arguments) {
 
-		// TODO :: this does not go through the whitelist
-		// maybe do some sanity checking before passing this to the File API?
-		// (to ensure that no maliciously crafted string can do... something? ^^)
-		if (location.startsWith("/") && location.endsWith(".jpg")) {
+		String locEquiv = getWhitelistedLocationEquivalent(location);
 
-			File result = new File(db.getDataDirectory(), location.substring(1));
+		// if no root is specified, then we are just not serving any files at all
+		// and if no location equivalent is found on the whitelist, we are not serving this request
+		if ((webRoot != null) && (locEquiv != null)) {
 
-			if (result.exists()) {
-				return result;
+			// serves images directly from the server dir, rather than the deployed dir
+			if (locEquiv.toLowerCase().endsWith(".jpg")) {
+				File result = new File(db.getDataDirectory(), locEquiv);
+				if (result.exists()) {
+					return result;
+				}
 			}
+
+			// actually get the file
+			return webRoot.getFile(locEquiv);
 		}
 
-		return super.getFileFromLocation(location, arguments);
+		// if the file was not found on the whitelist, do not return it
+		// - even if it exists on the server!
+		return null;
 	}
 }

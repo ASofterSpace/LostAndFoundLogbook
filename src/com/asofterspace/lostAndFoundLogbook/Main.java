@@ -12,8 +12,8 @@ import com.asofterspace.toolbox.Utils;
 public class Main {
 
 	public final static String PROGRAM_TITLE = "LostAndFoundLogbook";
-	public final static String VERSION_NUMBER = "0.0.0.9(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
-	public final static String VERSION_DATE = "10. April 2019 - 30. March 2020";
+	public final static String VERSION_NUMBER = "0.0.1.0(" + Utils.TOOLBOX_VERSION_NUMBER + ")";
+	public final static String VERSION_DATE = "10. April 2019 - 22. August 2020";
 
 
 	public static void main(String[] args) {

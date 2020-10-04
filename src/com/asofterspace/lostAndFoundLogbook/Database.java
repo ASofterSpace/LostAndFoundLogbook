@@ -110,7 +110,7 @@ public class Database {
 			if (picStrBase64.contains(",")) {
 				picStrBase64 = picStrBase64.substring(picStrBase64.indexOf(",") + 1);
 			}
-			String picStr = Base64Decoder.decodeFromBase64(picStrBase64);
+			String picStr = Base64Decoder.decode(picStrBase64);
 			String picName = "pic" + currentId + ".jpg";
 			BinaryFile picFile = new BinaryFile(dataDir, picName);
 			picFile.saveContentStr(picStr);
